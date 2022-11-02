@@ -8,33 +8,36 @@ def create_movie_list():
     Создать в каталоге список фильмов.
     Если его не существует, то сохранить в файл.
     """
-    folder_for_movie_list: str = 'Movie List'
-    if not os.path.isdir(folder_for_movie_list):
-        os.mkdir(folder_for_movie_list)
-    os.chdir(folder_for_movie_list)
+    path_to_folder = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
+    if not os.path.isdir(path_to_folder):
+        os.mkdir(path_to_folder)
 
-    file_name: str = input('\nВведите название файла: ')
-    file_name +='.txt'
-    if not os.path.exists(file_name):
-        print(
-            'Введите название фильма\n'
-            'Для разделения используйте enter\n'
-            'Чтобы выйти введите <q or quit>:\n'
-        )
-        movie_list: list = []
-        title: str = ''
-        i: int = 1
-        while True:
-            title = input(f'#{i}: ')
-            if title == 'q' or title == 'quit':
-                break
-            movie_list.append(title)
-            i += 1
+    while True:
+        file_name: str = input('\nВведите название файла: ')
+        file_name += '.txt'
+        file_name = os.path.join(path_to_folder, file_name)
+        if not os.path.exists(file_name):
+            print(
+                'Введите название фильма\n'
+                'Для разделения используйте enter\n'
+                'Чтобы выйти введите <q or quit>:\n'
+            )
+            movie_list: list = []
+            title: str = ''
+            i: int = 1
+            while True:
+                title = input(f'#{i}: ')
+                if title == 'q' or title == 'quit':
+                    break
+                movie_list.append(title)
+                i += 1
 
-        with open(file_name, 'w') as fout:
-            fout.writelines('\n'.join(movie_list))
-        return 
-    return 
+            with open(file_name, 'w') as fout:
+                fout.writelines('\n'.join(movie_list))
+
+            os.chdir('..')
+            return
+        print('\aФайл с таким именем уже существует! Попробуйте снова')
 
 
 def choose_movie_list():
@@ -82,16 +85,16 @@ def show_menu() -> int:
 def main() -> None:
     """Основная логика программы."""
     say_hello()
-    choice_number: int = show_menu()
-    menu_list = {
-        0: exit,
-        1: create_movie_list,
-        2: choose_movie_list,
-    }
-    choice_number = menu_list[choice_number]()
-    print(choice_number)
+    while True:
+        choice_number: int = show_menu()
+        menu_list = {
+            0: exit,
+            1: create_movie_list,
+            2: choose_movie_list,
+        }
+        menu_list[choice_number]()
     #randomize_movie()
-    exit()
+    #exit()
 
 
 if __name__ == '__main__':
