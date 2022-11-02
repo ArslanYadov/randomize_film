@@ -12,8 +12,8 @@ def create_movie_list():
     if not os.path.isdir(path_to_folder):
         os.mkdir(path_to_folder)
 
+    file_name: str = input('\nВведите название файла: ')
     while True:
-        file_name: str = input('\nВведите название файла: ')
         file_name += '.txt'
         file_name = os.path.join(path_to_folder, file_name)
         if not os.path.exists(file_name):
@@ -37,7 +37,8 @@ def create_movie_list():
 
             os.chdir('..')
             return
-        print('\aФайл с таким именем уже существует! Попробуйте снова')
+        print('Файл с таким именем уже существует! Попробуйте снова.')
+        file_name = input('Введите другое название файла: ')
 
 
 def choose_movie_list():
@@ -93,8 +94,6 @@ def main() -> None:
             2: choose_movie_list,
         }
         menu_list[choice_number]()
-    #randomize_movie()
-    #exit()
 
 
 if __name__ == '__main__':
