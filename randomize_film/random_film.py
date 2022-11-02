@@ -4,7 +4,10 @@ import time
 
 
 def create_movie_list():
-    """Создать список фильмов и сохранить в файл."""
+    """
+    Создать в каталоге список фильмов.
+    Если его не существует, то сохранить в файл.
+    """
     folder_for_movie_list: str = 'Movie List'
     if not os.path.isdir(folder_for_movie_list):
         os.mkdir(folder_for_movie_list)
@@ -18,9 +21,9 @@ def create_movie_list():
             'Для разделения используйте enter\n'
             'Чтобы выйти введите <q or quit>:\n'
         )
-        movie_list = []
+        movie_list: list = []
         title: str = ''
-        i = 1
+        i: int = 1
         while True:
             title = input(f'#{i}: ')
             if title == 'q' or title == 'quit':
@@ -30,8 +33,8 @@ def create_movie_list():
 
         with open(file_name, 'w') as fout:
             fout.writelines('\n'.join(movie_list))
-        return
-    return
+        return 
+    return 
 
 
 def choose_movie_list():
@@ -79,13 +82,14 @@ def show_menu() -> int:
 def main() -> None:
     """Основная логика программы."""
     say_hello()
-    choice_number = show_menu()
+    choice_number: int = show_menu()
     menu_list = {
         0: exit,
         1: create_movie_list,
         2: choose_movie_list,
     }
-    menu_list[choice_number]()
+    choice_number = menu_list[choice_number]()
+    print(choice_number)
     #randomize_movie()
     exit()
 
