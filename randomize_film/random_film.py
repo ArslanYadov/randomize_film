@@ -18,9 +18,9 @@ def create_movie_list():
         file_name = os.path.join(path_to_folder, file_name)
         if not os.path.exists(file_name):
             print(
-                'Введите название фильма\n'
-                'Для разделения используйте enter\n'
-                'Чтобы выйти введите <q or quit>:\n'
+                'Введите название фильма.\n'
+                'Для разделения фильмов используйте <Enter>.\n'
+                'Чтобы выйти введите <q or quit>.'
             )
             movie_list: list = []
             title: str = ''
@@ -31,9 +31,9 @@ def create_movie_list():
                     break
                 movie_list.append(title)
                 i += 1
-
-            with open(file_name, 'w') as fout:
-                fout.writelines('\n'.join(movie_list))
+            if len(movie_list) != 0:
+                with open(file_name, 'w') as fout:
+                    fout.writelines('\n'.join(movie_list))
 
             return
         print('Файл с таким именем уже существует! Попробуйте снова.')
