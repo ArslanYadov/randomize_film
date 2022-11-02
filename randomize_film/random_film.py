@@ -3,14 +3,12 @@ import sys
 import time
 
 
+MENU_BUTTONS: list = [0, 1, 2]
 EXIT_COMMANDS: list = ['quit', 'q', '']
 
 
-def create_movie_list():
-    """
-    Создать в каталоге список фильмов.
-    Если его не существует, то сохранить в файл.
-    """
+def create_movie_list() -> None:
+    """Создать в каталоге список фильмов."""
     path_to_folder = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
     if not os.path.isdir(path_to_folder):
         os.mkdir(path_to_folder)
@@ -55,10 +53,12 @@ def randomize_movie():
 
 def exit() -> None:
     """Закрытие программы."""
+    print('Выход.')
+    time.sleep(0.5)
     print('Спасибо за использование программы.')
-    time.sleep(1)
+    time.sleep(0.5)
     print('Программа завершается.')
-    time.sleep(1)
+    time.sleep(0.5)
     sys.exit()
 
 
@@ -70,18 +70,25 @@ def say_hello() -> None:
 
 
 def show_menu() -> int:
-    """
-    1. Создать новый список фильмов.
-    2. Выбрать готовый список фильмов.
-    0. Выход из программы.
-    """
+    """Вывод меню приложения."""
     print('Меню')
-    print(
+    menu_choices: str = (
         '1. Для создания нового списка.\n'
         '2. Открыть/редактировать имеющийся список.\n'
         '0. Выход.'
     )
-    choose_button: int = int(input('Выберите действие: '))
+    print(menu_choices)
+    while True:
+        try:
+            choose_button: int = int(input('Выберите действие: '))
+            if choose_button not in MENU_BUTTONS:
+                raise Exception
+            break
+        except ValueError:
+            print('[Error] Неверный формат. Необходимо ввести число.')
+        except Exception:
+            print('[Error] Выберите доступные действия из меню')
+            print(menu_choices)
     return choose_button
 
 
@@ -89,7 +96,7 @@ def main() -> None:
     """Основная логика программы."""
     say_hello()
     while True:
-        choice_number: int = show_menu()
+        choice_number: int = int(show_menu())
         menu_list = {
             0: exit,
             1: create_movie_list,
