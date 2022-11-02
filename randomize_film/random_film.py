@@ -35,7 +35,6 @@ def create_movie_list():
             with open(file_name, 'w') as fout:
                 fout.writelines('\n'.join(movie_list))
 
-            os.chdir('..')
             return
         print('Файл с таким именем уже существует! Попробуйте снова.')
         file_name = input('Введите другое название файла: ')
