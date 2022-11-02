@@ -1,3 +1,7 @@
+# TO DO:
+# написать функцию choose_movie_list для открытия и редактирования имеющегося файла
+# написать функцию random_movie для рандомного флильма из выбранного списка
+# использую import logging написать логгирование ошибок
 import os
 import sys
 import time
@@ -46,7 +50,7 @@ def choose_movie_list():
     ...
 
 
-def randomize_movie():
+def random_movie():
     """Выбрать рандомный фильм из списка."""
     ...
 
@@ -96,7 +100,7 @@ def main() -> None:
     """Основная логика программы."""
     say_hello()
     while True:
-        choice_number: int = int(show_menu())
+        choice_number: int = show_menu()
         menu_list = {
             0: exit,
             1: create_movie_list,
