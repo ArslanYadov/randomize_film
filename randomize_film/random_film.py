@@ -3,6 +3,9 @@ import sys
 import time
 
 
+EXIT_COMMANDS: list = ['quit', 'q', '']
+
+
 def create_movie_list():
     """
     Создать в каталоге список фильмов.
@@ -20,14 +23,14 @@ def create_movie_list():
             print(
                 'Введите название фильма.\n'
                 'Для разделения фильмов используйте <Enter>.\n'
-                'Чтобы выйти введите <q or quit>.'
+                'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
             )
             movie_list: list = []
             title: str = ''
             i: int = 1
             while True:
                 title = input(f'#{i}: ')
-                if title == 'q' or title == 'quit':
+                if title.lower() in EXIT_COMMANDS:
                     break
                 movie_list.append(title)
                 i += 1
