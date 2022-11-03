@@ -18,6 +18,8 @@ def create_movie_list() -> None:
         os.mkdir(PATH_TO_FOLDER)
 
     file_name: str = input('\nВведите название файла: ')
+    if len(file_name) == 0:
+        file_name += 'NoName'
     while True:
         file_name += '.txt'
         file_name = os.path.join(PATH_TO_FOLDER, file_name)
