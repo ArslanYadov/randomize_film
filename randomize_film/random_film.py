@@ -9,18 +9,18 @@ import time
 
 MENU_BUTTONS: list = [0, 1, 2]
 EXIT_COMMANDS: list = ['quit', 'q', '']
+PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
 
 def create_movie_list() -> None:
     """Создать в каталоге список фильмов."""
-    path_to_folder = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
-    if not os.path.isdir(path_to_folder):
-        os.mkdir(path_to_folder)
+    if not os.path.isdir(PATH_TO_FOLDER):
+        os.mkdir(PATH_TO_FOLDER)
 
     file_name: str = input('\nВведите название файла: ')
     while True:
         file_name += '.txt'
-        file_name = os.path.join(path_to_folder, file_name)
+        file_name = os.path.join(PATH_TO_FOLDER, file_name)
         if not os.path.exists(file_name):
             print(
                 'Введите название фильма.\n'
@@ -47,7 +47,15 @@ def create_movie_list() -> None:
 
 def choose_movie_list():
     """Выбрать список из имеющихся."""
-    ...
+    i: int = 1
+    if os.path.isdir(PATH_TO_FOLDER):
+        for root, dirs, files in os.walk(PATH_TO_FOLDER):
+            for filename in files:
+                print(f'#{i} : {filename}')
+                i += 1
+        edit_file: str = input('Выберите файл из списка: ')
+    print('У вас нет ни одного списка с фильмами.')
+    return
 
 
 def random_movie():
