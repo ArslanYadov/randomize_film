@@ -1,5 +1,5 @@
 # TO DO:
-# написать функцию choose_movie_list для открытия и редактирования имеющегося файла
+# написать функцию select_movie_list для открытия и редактирования имеющегося файла
 # написать функцию random_movie для рандомного флильма из выбранного списка
 # использую import logging написать логгирование ошибок
 import os
@@ -45,7 +45,7 @@ def create_movie_list() -> None:
         file_name = input('Введите другое название файла: ')
 
 
-def choose_movie_list():
+def select_movie_list():
     """Выбрать список из имеющихся."""
     i: int = 1
     if os.path.isdir(PATH_TO_FOLDER):
@@ -112,7 +112,7 @@ def main() -> None:
         menu_list = {
             0: exit,
             1: create_movie_list,
-            2: choose_movie_list,
+            2: select_movie_list,
         }
         menu_list[choice_number]()
 
