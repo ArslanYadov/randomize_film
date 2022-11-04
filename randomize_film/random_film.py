@@ -75,22 +75,23 @@ def get_all_movie_list() -> list:
 
 def select_movie_list():
     """Выбрать список из имеющихся."""
-    SELECT_FILE_ERR_MSG: str = 'Выберите файл из списка <пустая строка для возврата назад>: '
+    SELECT_FILE_MSG: str = 'Выберите файл из списка <пустая строка для возврата назад>: '
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
-    
+
     all_movie_list: List[str] = get_all_movie_list()
     if all_movie_list is not None:
         print(*all_movie_list, sep=' | ')
-        edit_file: str = input(SELECT_FILE_ERR_MSG)
+        edit_file: str = input(SELECT_FILE_MSG)
         while True:
-            if not is_empty(edit_file):
-                if edit_file in all_movie_list:
-                    file_edit_menu(edit_file)
-                    break
-                else:
-                    print(FILE_NOT_EXIST)
-                    edit_file = input(SELECT_FILE_ERR_MSG)
-            return
+            if is_empty(edit_file):
+                return
+            edit_file += '.txt'
+            if edit_file in all_movie_list:
+                open_menu(edit_file)
+                break
+            else:
+                print(FILE_NOT_EXIST)
+                edit_file = input(SELECT_FILE_MSG)
     return
 
 
@@ -120,16 +121,25 @@ def say_hello() -> None:
     time.sleep(1)
 
 
-def open_menu() -> int:
+def open_menu(filename=None) -> int:
     """Вывод меню приложения."""
     clear()
     print('Меню')
-    menu_choices: str = (
-        '1. Для создания нового списка.\n'
-        '2. Открыть/редактировать имеющийся список.\n'
-        '0. Выход.'
-    )
-    print(menu_choices)
+    if filename is not None:
+        print('Файл:', filename)
+        menu_choices: str = (
+            '1. Открыть файл.\n'
+            '2. Редактировать файл.\n'
+            '0. Назад.'
+        )
+        print(menu_choices)
+    else:
+        menu_choices: str = (
+            '1. Для создания нового списка.\n'
+            '2. Открыть/редактировать имеющийся список.\n'
+            '0. Выход.'
+        )
+        print(menu_choices)
     while True:
         try:
             choose_button: int = int(input('Выберите действие: '))
@@ -147,6 +157,7 @@ def open_menu() -> int:
 
 def file_edit_menu():
     """Меню для выбора/редактирования файла."""
+
 
 
 def main() -> None:
