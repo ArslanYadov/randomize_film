@@ -20,9 +20,9 @@ def clear() -> None:
         _ = os.system('clear')
 
 
-def empty_input(string) -> bool:
-    """Проверка на ввод пустой строки."""
-    return len(string) == 0
+def is_empty(variable) -> bool:
+    """Проверка для пустого ввода."""
+    return len(variable) == 0
 
 
 def create_movie_list() -> None:
@@ -31,7 +31,7 @@ def create_movie_list() -> None:
         os.mkdir(PATH_TO_FOLDER)
 
     file_name: str = input('\nВведите название файла: ')
-    if empty_input(file_name):
+    if is_empty(file_name):
         file_name += 'NoName'
     while True:
         file_name += '.txt'
@@ -51,10 +51,9 @@ def create_movie_list() -> None:
                     break
                 movie_list.append(title)
                 i += 1
-            if len(movie_list) != 0:
+            if not is_empty(movie_list):
                 with open(file_name, 'w') as fout:
                     fout.writelines('\n'.join(movie_list))
-
             return
         print('Файл с таким именем уже существует! Попробуйте снова.')
         file_name = input('Введите другое название файла: ')
@@ -78,7 +77,7 @@ def select_movie_list():
     if all_movie_list is not None:
         print(*all_movie_list)
         edit_file: str = input('Выберите файл из списка <пустая строка для возврата назад>: ')
-        if not empty_input(edit_file):
+        if not is_empty(edit_file):
             return
         return
     return
