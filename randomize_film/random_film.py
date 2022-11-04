@@ -93,11 +93,11 @@ def random_movie():
 def exit() -> None:
     """Закрытие программы."""
     print('Выход.')
-    time.sleep(1)
+    time.sleep(0.7)
     print('Спасибо за использование программы.')
-    time.sleep(1)
+    time.sleep(0.7)
     print('Программа завершается.')
-    time.sleep(1)
+    time.sleep(0.7)
     clear()
     sys.exit()
 
