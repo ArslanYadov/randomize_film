@@ -47,16 +47,24 @@ def create_movie_list() -> None:
         file_name = input('Введите другое название файла: ')
 
 
-def select_movie_list():
-    """Выбрать список из имеющихся."""
-    i: int = 1
+def get_all_movie_list() -> list:
+    """Получить все имеющиеся списки."""
+    all_movie_list: list = []
     if os.path.isdir(PATH_TO_FOLDER):
         for root, dirs, files in os.walk(PATH_TO_FOLDER):
             for filename in files:
-                print(f'#{i} : {filename}')
-                i += 1
-        edit_file: str = input('Выберите файл из списка: ')
+                all_movie_list.append(filename)
+        return all_movie_list
     print('У вас нет ни одного списка с фильмами.')
+    return None
+
+
+def select_movie_list():
+    """Выбрать список из имеющихся."""
+    all_movie_list: list = get_all_movie_list()
+    if all_movie_list is not None:
+        print(all_movie_list)
+        edit_file: str = input('Выберите файл из списка: ')
     return
 
 
