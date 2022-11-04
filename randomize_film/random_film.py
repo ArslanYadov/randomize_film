@@ -6,9 +6,11 @@ import os
 import sys
 import time
 
+from typing import List, Any
 
-MENU_BUTTONS: list = [0, 1, 2]
-EXIT_COMMANDS: list = ['quit', 'q', '']
+
+MENU_BUTTONS: List[int] = [0, 1, 2]
+EXIT_COMMANDS: List[str] = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
 
@@ -20,7 +22,7 @@ def clear() -> None:
         _ = os.system('clear')
 
 
-def is_empty(variable) -> bool:
+def is_empty(variable: Any) -> bool:
     """Проверка для пустого ввода."""
     return len(variable) == 0
 
@@ -42,7 +44,7 @@ def create_movie_list() -> None:
                 'Для разделения фильмов используйте <Enter>.\n'
                 'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
             )
-            movie_list: list = []
+            movie_list: List[str] = []
             title: str = ''
             i: int = 1
             while True:
@@ -61,9 +63,9 @@ def create_movie_list() -> None:
 
 def get_all_movie_list() -> list:
     """Получить все имеющиеся списки."""
-    all_movie_list: list = []
+    all_movie_list: List[str] = []
     if os.path.isdir(PATH_TO_FOLDER):
-        for root, dirs, files in os.walk(PATH_TO_FOLDER):
+        for _, _, files in os.walk(PATH_TO_FOLDER):
             for filename in files:
                 all_movie_list.append(filename)
         return all_movie_list
@@ -73,7 +75,7 @@ def get_all_movie_list() -> list:
 
 def select_movie_list():
     """Выбрать список из имеющихся."""
-    all_movie_list: list = get_all_movie_list()
+    all_movie_list: List[str] = get_all_movie_list()
     if all_movie_list is not None:
         print(*all_movie_list)
         edit_file: str = input('Выберите файл из списка <пустая строка для возврата назад>: ')
@@ -91,11 +93,12 @@ def random_movie():
 def exit() -> None:
     """Закрытие программы."""
     print('Выход.')
-    time.sleep(0.5)
+    time.sleep(1)
     print('Спасибо за использование программы.')
-    time.sleep(0.5)
+    time.sleep(1)
     print('Программа завершается.')
-    time.sleep(0.5)
+    time.sleep(1)
+    clear()
     sys.exit()
 
 
