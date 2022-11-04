@@ -87,7 +87,7 @@ def select_movie_list():
                 return
             edit_file += '.txt'
             if edit_file in all_movie_list:
-                show_menu(edit_file)
+                read_edit_file(edit_file, show_menu(edit_file))
                 break
             else:
                 print(FILE_NOT_EXIST)
@@ -98,6 +98,28 @@ def select_movie_list():
 def random_movie():
     """Выбрать рандомный фильм из списка."""
     ...
+
+
+def read_edit_file(filename: str, choice_number: int):
+    """Показать/редактирование файла."""
+    if choice_number not in [1, 2]:
+        return
+    menu: dict = {
+        1: read_file,
+    }
+    menu[choice_number](filename)
+    read_edit_file(filename, show_menu(filename))
+
+
+def read_file(filename):
+    """Показать файл."""
+    filename = os.path.join(PATH_TO_FOLDER, filename)
+    with open(filename, 'r') as fin:
+        for num, movie in enumerate(fin, start=1):
+            print(f'{num}: {movie}', end='')
+        print()
+        if input():
+            return
 
 
 def exit() -> None:
@@ -123,10 +145,12 @@ def say_hello() -> None:
 
 def show_menu(filename=None) -> int:
     """Вывод меню приложения."""
+    MENU_MSG: str = 'Меню'
+
     clear()
-    print('Меню')
     if filename is not None:
         print('Файл:', filename)
+        print('-' * 20)
         menu_choices: str = (
             '1. Открыть файл.\n'
             '2. Редактировать файл.\n'
@@ -134,6 +158,7 @@ def show_menu(filename=None) -> int:
         )
         print(menu_choices)
     else:
+        print(f'{MENU_MSG:*^10}')
         menu_choices: str = (
             '1. Для создания нового списка.\n'
             '2. Открыть/редактировать имеющийся список.\n'
