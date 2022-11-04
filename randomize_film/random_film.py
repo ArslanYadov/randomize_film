@@ -87,7 +87,7 @@ def select_movie_list():
                 return
             edit_file += '.txt'
             if edit_file in all_movie_list:
-                open_menu(edit_file)
+                show_menu(edit_file)
                 break
             else:
                 print(FILE_NOT_EXIST)
@@ -121,7 +121,7 @@ def say_hello() -> None:
     time.sleep(1)
 
 
-def open_menu(filename=None) -> int:
+def show_menu(filename=None) -> int:
     """Вывод меню приложения."""
     clear()
     print('Меню')
@@ -155,16 +155,11 @@ def open_menu(filename=None) -> int:
     return choose_button
 
 
-def file_edit_menu():
-    """Меню для выбора/редактирования файла."""
-
-
-
 def main() -> None:
     """Основная логика программы."""
     say_hello()
     while True:
-        choice_number: int = open_menu()
+        choice_number: int = show_menu()
         menu_list = {
             0: exit,
             1: create_movie_list,
