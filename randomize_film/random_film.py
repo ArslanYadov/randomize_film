@@ -12,6 +12,13 @@ EXIT_COMMANDS: list = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
 
+def clear() -> None:
+    """Очистака консоли."""
+    if os.name == 'nt':
+        _ = os.system('cls')
+    _ = os.system('clear')
+
+
 def empty_input(string) -> bool:
     """Проверка на ввод пустой строки."""
     return len(string) == 0
@@ -94,13 +101,16 @@ def exit() -> None:
 
 def say_hello() -> None:
     """Приветствие."""
+    clear()
     hello_msg = 'Добро пожаловать в программу по случайному выбору фильма!'
     print(hello_msg)
     print('=' * len(hello_msg))
+    time.sleep(1)
 
 
 def show_menu() -> int:
     """Вывод меню приложения."""
+    clear()
     print('Меню')
     menu_choices: str = (
         '1. Для создания нового списка.\n'
@@ -119,6 +129,7 @@ def show_menu() -> int:
         except Exception:
             print('[Error] Выберите доступные действия из меню')
             print(menu_choices)
+    clear()
     return choose_button
 
 
