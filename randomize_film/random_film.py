@@ -12,13 +12,18 @@ EXIT_COMMANDS: list = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
 
+def empty_input(string) -> bool:
+    """Проверка на ввод пустой строки."""
+    return len(string) == 0
+
+
 def create_movie_list() -> None:
     """Создать в каталоге список фильмов."""
     if not os.path.isdir(PATH_TO_FOLDER):
         os.mkdir(PATH_TO_FOLDER)
 
     file_name: str = input('\nВведите название файла: ')
-    if len(file_name) == 0:
+    if empty_input(file_name):
         file_name += 'NoName'
     while True:
         file_name += '.txt'
@@ -63,8 +68,11 @@ def select_movie_list():
     """Выбрать список из имеющихся."""
     all_movie_list: list = get_all_movie_list()
     if all_movie_list is not None:
-        print(all_movie_list)
-        edit_file: str = input('Выберите файл из списка: ')
+        print(*all_movie_list)
+        edit_file: str = input('Выберите файл из списка <пустая строка для возврата назад>: ')
+        if not empty_input(edit_file):
+            return
+        return
     return
 
 
