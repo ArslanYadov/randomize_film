@@ -87,7 +87,7 @@ def select_movie_list():
                 return
             edit_file += '.txt'
             if edit_file in all_movie_list:
-                read_edit_file(edit_file, show_menu(edit_file))
+                read_add_file(edit_file, show_menu(edit_file))
                 break
             else:
                 print(FILE_NOT_EXIST)
@@ -100,26 +100,49 @@ def random_movie():
     ...
 
 
-def read_edit_file(filename: str, choice_number: int):
-    """Показать/редактирование файла."""
+def read_add_file(filename: str, choice_number: int):
+    """
+    Показать список.
+    Добавить в список.
+    """
     if choice_number not in [1, 2]:
         return
     menu: dict = {
         1: read_file,
+        2: add_file
     }
     menu[choice_number](filename)
-    read_edit_file(filename, show_menu(filename))
+    read_add_file(filename, show_menu(filename))
 
 
 def read_file(filename):
-    """Показать файл."""
+    """Показать список."""
     filename = os.path.join(PATH_TO_FOLDER, filename)
     with open(filename, 'r') as fin:
         for num, movie in enumerate(fin, start=1):
             print(f'{num}: {movie}', end='')
         print()
-        if input():
+        if input('<Enter>'):
             return
+
+
+def add_file(filename):
+    """Добавить фильм в конец списка."""
+    filename = os.path.join(PATH_TO_FOLDER, filename)
+    new_movie_list: List[str] = []
+    movie: str = input('Введите название фильма: ')
+    while True:
+        if is_empty(movie):
+            break
+        new_movie_list.append(movie)
+        clear()
+        print(*new_movie_list, sep='\n')
+        print('-' * 20)
+        movie: str = input('Введите название фильма: ')
+    if not is_empty(new_movie_list):
+        with open(filename, 'a') as fstream:
+            fstream.write('\n')
+            fstream.writelines('\n'.join(new_movie_list))
 
 
 def exit() -> None:
@@ -140,7 +163,7 @@ def say_hello() -> None:
     hello_msg = 'Добро пожаловать в программу по случайному выбору фильма!'
     print(hello_msg)
     print('=' * len(hello_msg))
-    time.sleep(1)
+    time.sleep(2)
 
 
 def show_menu(filename=None) -> int:
@@ -152,8 +175,8 @@ def show_menu(filename=None) -> int:
         print('Файл:', filename)
         print('-' * 20)
         menu_choices: str = (
-            '1. Открыть файл.\n'
-            '2. Редактировать файл.\n'
+            '1. Показать список.\n'
+            '2. Добавить в список.\n'
             '0. Назад.'
         )
         print(menu_choices)
