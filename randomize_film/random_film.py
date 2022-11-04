@@ -75,13 +75,22 @@ def get_all_movie_list() -> list:
 
 def select_movie_list():
     """Выбрать список из имеющихся."""
+    SELECT_FILE_ERR_MSG: str = 'Выберите файл из списка <пустая строка для возврата назад>: '
+    FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
+    
     all_movie_list: List[str] = get_all_movie_list()
     if all_movie_list is not None:
-        print(*all_movie_list)
-        edit_file: str = input('Выберите файл из списка <пустая строка для возврата назад>: ')
-        if not is_empty(edit_file):
+        print(*all_movie_list, sep=' | ')
+        edit_file: str = input(SELECT_FILE_ERR_MSG)
+        while True:
+            if not is_empty(edit_file):
+                if edit_file in all_movie_list:
+                    file_edit_menu(edit_file)
+                    break
+                else:
+                    print(FILE_NOT_EXIST)
+                    edit_file = input(SELECT_FILE_ERR_MSG)
             return
-        return
     return
 
 
@@ -111,7 +120,7 @@ def say_hello() -> None:
     time.sleep(1)
 
 
-def show_menu() -> int:
+def open_menu() -> int:
     """Вывод меню приложения."""
     clear()
     print('Меню')
@@ -136,11 +145,15 @@ def show_menu() -> int:
     return choose_button
 
 
+def file_edit_menu():
+    """Меню для выбора/редактирования файла."""
+
+
 def main() -> None:
     """Основная логика программы."""
     say_hello()
     while True:
-        choice_number: int = show_menu()
+        choice_number: int = open_menu()
         menu_list = {
             0: exit,
             1: create_movie_list,
