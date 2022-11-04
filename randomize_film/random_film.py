@@ -14,6 +14,11 @@ EXIT_COMMANDS: List[str] = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
 
+def path_to_file(filename) -> str:
+    """Возвращает путь к выбранному файлу."""
+    return os.path.join(PATH_TO_FOLDER, filename)
+
+
 def clear() -> None:
     """Очистака консоли."""
     if os.name == 'nt':
@@ -37,7 +42,7 @@ def create_movie_list() -> None:
         file_name += 'NoName'
     while True:
         file_name += '.txt'
-        file_name = os.path.join(PATH_TO_FOLDER, file_name)
+        file_name = path_to_file(file_name)
         if not os.path.exists(file_name):
             print(
                 'Введите название фильма.\n'
@@ -100,7 +105,7 @@ def random_movie():
     ...
 
 
-def read_add_file(filename: str, choice_number: int):
+def read_add_file(filename: str, choice_number: int) -> None:
     """
     Показать список.
     Добавить в список.
@@ -115,10 +120,9 @@ def read_add_file(filename: str, choice_number: int):
     read_add_file(filename, show_menu(filename))
 
 
-def read_file(filename):
+def read_file(filename) -> None:
     """Показать список."""
-    filename = os.path.join(PATH_TO_FOLDER, filename)
-    with open(filename, 'r') as fin:
+    with open(path_to_file(filename), 'r') as fin:
         for num, movie in enumerate(fin, start=1):
             print(f'{num}: {movie}', end='')
         print()
@@ -126,9 +130,8 @@ def read_file(filename):
             return
 
 
-def add_file(filename):
+def add_file(filename) -> None:
     """Добавить фильм в конец списка."""
-    filename = os.path.join(PATH_TO_FOLDER, filename)
     new_movie_list: List[str] = []
     movie: str = input('Введите название фильма: ')
     while True:
@@ -140,9 +143,10 @@ def add_file(filename):
         print('-' * 20)
         movie: str = input('Введите название фильма: ')
     if not is_empty(new_movie_list):
-        with open(filename, 'a') as fstream:
+        with open(path_to_file(filename), 'a') as fstream:
             fstream.write('\n')
             fstream.writelines('\n'.join(new_movie_list))
+    return
 
 
 def exit() -> None:
