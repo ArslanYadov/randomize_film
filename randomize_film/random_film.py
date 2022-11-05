@@ -1,14 +1,17 @@
 # TO DO:
 # написать функцию random_movie для рандомного флильма из выбранного списка
+# разобраться с пунктами в меню (общий и для конкретного файла)
+# сделать возможность удалить выбранный в рандоме фильм
 # использую import logging написать логгирование ошибок
 import os
 import sys
 import time
+import random
 
 from typing import List, Any
 
 
-MENU_BUTTONS: List[int] = [0, 1, 2]
+MENU_BUTTONS: List[int] = [0, 1, 2, 3]
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
@@ -65,7 +68,7 @@ def create_movie_list() -> None:
         file_name = input('Введите другое название файла: ')
 
 
-def get_all_movie_list() -> list:
+def get_all_movie_list() -> List[str]:
     """Получить все имеющиеся списки."""
     all_movie_list: List[str] = []
     if os.path.isdir(PATH_TO_FOLDER):
@@ -77,7 +80,7 @@ def get_all_movie_list() -> list:
     return None
 
 
-def select_movie_list():
+def select_movie_list() -> None:
     """Выбрать список из имеющихся."""
     SELECT_FILE_MSG: str = 'Выберите файл из списка <пустая строка для возврата назад>: '
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
@@ -99,9 +102,16 @@ def select_movie_list():
     return
 
 
-def random_movie():
+def random_movie(filename: str) -> None:
     """Выбрать рандомный фильм из списка."""
-    ...
+    filename = path_to_file(filename)
+    movie_list_for_random: List[str] = []
+    with open(filename, 'r') as fin:
+        for movie in fin:
+            movie_list_for_random.append(movie)
+    print('Ваш фильм на сегодня:', random.choice(movie_list_for_random))
+    if input('<Enter>'):
+        return
 
 
 def read_add_file(filename: str, choice_number: int) -> None:
@@ -109,11 +119,12 @@ def read_add_file(filename: str, choice_number: int) -> None:
     Показать список.
     Добавить в список.
     """
-    if choice_number not in [1, 2]:
+    if choice_number not in [1, 2, 3]:
         return
     menu: dict = {
         1: read_file,
-        2: add_file
+        2: add_file,
+        3: random_movie,
     }
     menu[choice_number](filename)
     read_add_file(filename, show_menu(filename))
@@ -182,6 +193,7 @@ def show_menu(filename=None) -> int:
         menu_choices: str = (
             '1. Показать список.\n'
             '2. Добавить в список.\n'
+            '3. Выбрать случайный фильм из списка.\n'
             '0. Назад.'
         )
         print(menu_choices)
