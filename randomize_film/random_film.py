@@ -1,5 +1,4 @@
 # TO DO:
-# написать функцию select_movie_list для открытия и редактирования имеющегося файла
 # написать функцию random_movie для рандомного флильма из выбранного списка
 # использую import logging написать логгирование ошибок
 import os
@@ -132,8 +131,10 @@ def read_file(filename) -> None:
 
 def add_file(filename) -> None:
     """Добавить фильм в конец списка."""
+    INPUT_MSG: str = 'Введите название фильма <пустая строка для возврата назад>: '
+
     new_movie_list: List[str] = []
-    movie: str = input('Введите название фильма: ')
+    movie: str = input(INPUT_MSG)
     while True:
         if is_empty(movie):
             break
@@ -141,7 +142,7 @@ def add_file(filename) -> None:
         clear()
         print(*new_movie_list, sep='\n')
         print('-' * 20)
-        movie: str = input('Введите название фильма: ')
+        movie: str = input(INPUT_MSG)
     if not is_empty(new_movie_list):
         with open(path_to_file(filename), 'a') as fstream:
             fstream.write('\n')
