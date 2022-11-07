@@ -86,18 +86,11 @@ def length_for_separate(movie_list: List[str]) -> int:
     """Высчитывает количество символов для разделителя."""
     total: int = 0
     for i in range(len(movie_list)):
-        total += len(movie_list[i])
+        if i == len(movie_list) - 1:
+            total += len(movie_list[i])
+            break
+        total += len(movie_list[i]) + 3
     return total
-
-
-def calculate_tail(length_movie_lists: int) -> int:
-    """Рассчитывает последний символ для разделителя."""
-    tail: int
-    if length_movie_lists % 2 == 0:
-        tail = 1
-        return tail
-    tail = 2
-    return tail
 
 
 def select_movie_list() -> None:
@@ -109,8 +102,7 @@ def select_movie_list() -> None:
     if not is_empty(all_movie_list):
         print(*all_movie_list, sep=' | ')
         sep_len: int = length_for_separate(all_movie_list)
-        tail: int = calculate_tail(len(all_movie_list))
-        separate(value=(sep_len + 2*len(all_movie_list) + tail))
+        separate(value=(sep_len))
         edit_file: str = input(SELECT_FILE_MSG)
         while True:
             if is_empty(edit_file):
