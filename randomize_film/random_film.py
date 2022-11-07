@@ -77,8 +77,10 @@ def get_all_movie_list() -> List[str]:
         for _, _, files in os.walk(PATH_TO_FOLDER):
             for filename in files:
                 all_movie_list.append(filename)
+    if not is_empty(all_movie_list):
         return all_movie_list
     print('У вас нет ни одного списка с фильмами.')
+    input('<Enter>')
     return None
 
 
@@ -99,7 +101,7 @@ def select_movie_list() -> None:
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
 
     all_movie_list: List[str] = get_all_movie_list()
-    if not is_empty(all_movie_list):
+    if all_movie_list is not None:
         print(*all_movie_list, sep=' | ')
         sep_len: int = length_for_separate(all_movie_list)
         separate(value=(sep_len))
@@ -114,24 +116,25 @@ def select_movie_list() -> None:
             else:
                 print(FILE_NOT_EXIST)
                 edit_file = input(SELECT_FILE_MSG)
-    print('У вас нет ни одного списка.\n')
-    if input('<Enter>'):
-        return
 
 
 def random_movie(filename: str) -> None:
     """Выбрать рандомный фильм из списка."""
-    filename = path_to_file(filename)
-    movie_list_for_random: List[str] = []
-    with open(filename, 'r') as fin:
-        for movie in fin:
-            movie_list_for_random.append(movie)
+    file_path = path_to_file(filename)
+    with open(file_path, 'r') as fin:
+        movie_list_for_random: List[str] = [movie.rstrip() for movie in fin]
     print('Ваш фильм на сегодня:', random.choice(movie_list_for_random))
     separate()
     process_movie(filename)
 
 
-def process_movie(filename) -> None:
+def delete_selected_movie(filename: str):
+    """Удаляет выбранный фильм."""
+
+    ...
+
+
+def process_movie(filename: str) -> None:
     """Доступные действия со случайным фильмом."""
     SELECT_ACTION: List[str] = [
         '',
@@ -146,15 +149,16 @@ def process_movie(filename) -> None:
     while True:
         try:
             answer: str = input('Ваш выбор: ')
+            if is_empty(answer):
+                return
             if answer.lower() not in SELECT_ACTION:
                 raise Exception
             if answer.lower() in ['yes', 'y', 'да', 'д']:
-                ...
+                delete_selected_movie(filename)
             if answer.lower() in ['no', 'n', 'нет', 'н']:
                 clear()
+                loading_imitation('Попробуем ещё раз', 2, 0.2)
                 random_movie(filename)
-            if answer == '':
-                return
         except Exception:
             print('[Error] Выберите доступные действия из меню')
             print(MENU_MSG)
