@@ -1,5 +1,4 @@
 # TO DO:
-# написать функцию random_movie для рандомного флильма из выбранного списка
 # разобраться с пунктами в меню (общий и для конкретного файла)
 # сделать возможность удалить выбранный в рандоме фильм
 # использую import logging написать логгирование ошибок
@@ -11,7 +10,6 @@ import random
 from typing import List, Any
 
 
-MENU_BUTTONS: List[int] = [0, 1, 2, 3]
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
 
@@ -185,9 +183,12 @@ def say_hello() -> None:
 def show_menu(filename=None) -> int:
     """Вывод меню приложения."""
     MENU_MSG: str = 'Меню'
+    MENU_BUTTONS: List[int] = [0, 1, 2]
 
     clear()
     if filename is not None:
+        MENU_BUTTONS.append(3)
+        
         print('Файл:', filename)
         print('-' * 20)
         menu_choices: str = (
