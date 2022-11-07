@@ -234,10 +234,12 @@ def exit() -> None:
 def say_hello() -> None:
     """Приветствие."""
     clear()
-    hello_msg = 'Добро пожаловать в программу по случайному выбору фильма!'
-    print(hello_msg)
-    separate('=', len(hello_msg))
+    HELLO_MSG: str = 'Добро пожаловать в программу по случайному выбору фильма!'
+    print(HELLO_MSG)
+    separate('=', len(HELLO_MSG))
     time.sleep(2)
+    clear()
+    loading_imitation('Загрузка', 2, 0.3)
 
 
 def show_menu(filename=None) -> int:
