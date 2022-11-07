@@ -6,12 +6,18 @@ import os
 import sys
 import time
 import random
+import itertools
 
 from typing import List, Any
 
 
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
 PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
+
+
+def separate(symbol: str = '-', value: int = 20) -> None:
+    """Отделяет название от меню."""
+    print(symbol * value)
 
 
 def path_to_file(filename) -> str:
@@ -108,14 +114,43 @@ def random_movie(filename: str) -> None:
         for movie in fin:
             movie_list_for_random.append(movie)
     print('Ваш фильм на сегодня:', random.choice(movie_list_for_random))
-    if input('<Enter>'):
-        return
+    process_movie(filename)
+
+
+def process_movie(filename) -> None:
+    """Доступные действия со случайным фильмом."""
+    SELECT_ACTION: List[str] = [
+        '',
+        'yes', 'y',
+        'no', 'n',
+        'да', 'д',
+        'нет', 'н',
+    ]
+    MENU_MSG: str = 'Выбрать и удалить из списка: <да> | Ещё попытка: <нет> | Назад: <Enter>'
+
+    print(MENU_MSG)
+    while True:
+        try:
+            answer: str = input('Ваш выбор: ')
+            if answer.lower() not in SELECT_ACTION:
+                raise Exception
+            if answer.lower() in ['yes', 'y', 'да', 'д']:
+                ...
+            if answer.lower() in ['no', 'n', 'нет', 'н']:
+                clear()
+                random_movie(filename)
+            if answer == '':
+                return
+        except Exception:
+            print('[Error] Выберите доступные действия из меню')
+            print(MENU_MSG)
 
 
 def read_add_file(filename: str, choice_number: int) -> None:
     """
     Показать список.
     Добавить в список.
+    Выбрать случайный фильм из списка.
     """
     if choice_number not in [1, 2, 3]:
         return
@@ -150,7 +185,7 @@ def add_file(filename) -> None:
         new_movie_list.append(movie)
         clear()
         print(*new_movie_list, sep='\n')
-        print('-' * 20)
+        separate()
         movie: str = input(INPUT_MSG)
     if not is_empty(new_movie_list):
         with open(path_to_file(filename), 'a') as fstream:
@@ -190,7 +225,7 @@ def show_menu(filename=None) -> int:
         menu_buttons.append(3)
 
         print('Файл:', filename)
-        print('-' * 20)
+        separate()
         menu_choices: str = (
             '1. Показать список.\n'
             '2. Добавить в список.\n'
