@@ -1,12 +1,10 @@
 # TO DO:
-# разобраться с пунктами в меню (общий и для конкретного файла)
 # сделать возможность удалить выбранный в рандоме фильм
 # использую import logging написать логгирование ошибок
 import os
 import sys
 import time
 import random
-import itertools
 
 from typing import List, Any
 
@@ -108,7 +106,7 @@ def select_movie_list() -> None:
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
 
     all_movie_list: List[str] = get_all_movie_list()
-    if all_movie_list is not None:
+    if not is_empty(all_movie_list):
         print(*all_movie_list, sep=' | ')
         sep_len: int = length_for_separate(all_movie_list)
         tail: int = calculate_tail(len(all_movie_list))
@@ -124,7 +122,9 @@ def select_movie_list() -> None:
             else:
                 print(FILE_NOT_EXIST)
                 edit_file = input(SELECT_FILE_MSG)
-    return
+    print('У вас нет ни одного списка.\n')
+    if input('<Enter>'):
+        return
 
 
 def random_movie(filename: str) -> None:
