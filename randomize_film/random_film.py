@@ -183,12 +183,12 @@ def say_hello() -> None:
 def show_menu(filename=None) -> int:
     """Вывод меню приложения."""
     MENU_MSG: str = 'Меню'
-    MENU_BUTTONS: List[int] = [0, 1, 2]
+    menu_buttons: List[int] = [0, 1, 2]
 
     clear()
     if filename is not None:
-        MENU_BUTTONS.append(3)
-        
+        menu_buttons.append(3)
+
         print('Файл:', filename)
         print('-' * 20)
         menu_choices: str = (
@@ -209,7 +209,7 @@ def show_menu(filename=None) -> int:
     while True:
         try:
             choose_button: int = int(input('Выберите действие: '))
-            if choose_button not in MENU_BUTTONS:
+            if choose_button not in menu_buttons:
                 raise Exception
             break
         except ValueError:
