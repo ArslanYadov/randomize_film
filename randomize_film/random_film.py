@@ -43,35 +43,45 @@ def create_movie_list() -> None:
         os.mkdir(PATH_TO_FOLDER)
 
     file_name: str = input('\nВведите название файла: ')
-    if is_empty(file_name):
-        file_name += 'NoName'
+    count: int = 1
     while True:
-        file_name += '.txt'
-        file_name_show: str = 'Файл: ' + file_name
+        if not is_empty(file_name):
+            file_name += '.txt'
+            file_name_show: str = 'Файл: ' + file_name
+            clear()
+            print(file_name_show)
+            separate(value=len(file_name_show))
+            file_name = path_to_file(file_name)
+            if not os.path.exists(file_name):
+                print(
+                    'Введите название фильма.\n'
+                    'Для разделения фильмов используйте <Enter>.\n'
+                    'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
+                )
+                movie_list: List[str] = []
+                title: str = ''
+                i: int = 1
+                while True:
+                    title = input(f'#{i}: ')
+                    if title.lower() in EXIT_COMMANDS:
+                        break
+                    movie_list.append(title)
+                    i += 1
+                if not is_empty(movie_list):
+                    with open(file_name, 'w') as fout:
+                        fout.writelines('\n'.join(movie_list))
+                return
+            print('Файл с таким именем уже существует! Попробуйте снова.')
+            file_name = input('Введите другое название файла: ')
         clear()
-        print(file_name_show)
-        separate(value=len(file_name_show))
-        file_name = path_to_file(file_name)
-        if not os.path.exists(file_name):
-            print(
-                'Введите название фильма.\n'
-                'Для разделения фильмов используйте <Enter>.\n'
-                'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
-            )
-            movie_list: List[str] = []
-            title: str = ''
-            i: int = 1
-            while True:
-                title = input(f'#{i}: ')
-                if title.lower() in EXIT_COMMANDS:
-                    break
-                movie_list.append(title)
-                i += 1
-            if not is_empty(movie_list):
-                with open(file_name, 'w') as fout:
-                    fout.writelines('\n'.join(movie_list))
+        if count < 10:
+            print('Имя файла не может быть пустым.')
+        elif count == 10:
+            loading_imitation('Проверяю', 10, .4)
+            print('Нет, все же имя файла не может быть пустым.')
+        else:
             return
-        print('Файл с таким именем уже существует! Попробуйте снова.')
+        count += 1
         file_name = input('Введите другое название файла: ')
 
 
