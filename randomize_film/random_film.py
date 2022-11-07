@@ -208,14 +208,26 @@ def add_file(filename) -> None:
     return
 
 
+def loading_imitation(message: str, cycle: int = 0, seconds: float = 0) -> None:
+    """Имитация загрузки."""
+    for _ in range(cycle):
+        print(message + '.')
+        time.sleep(seconds)
+        clear()
+        print(message + '..')
+        time.sleep(seconds)
+        clear()
+        print(message + '...')
+        time.sleep(seconds)
+        clear()
+
+
 def exit() -> None:
     """Закрытие программы."""
     print('Спасибо за использование программы.')
     time.sleep(0.7)
     clear()
-    print('Программа завершается.')
-    time.sleep(0.7)
-    clear()
+    loading_imitation('Программа завершается', 2, 0.7)
     sys.exit()
 
 
