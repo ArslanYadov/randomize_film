@@ -5,8 +5,9 @@ import os
 import sys
 import time
 import random
+import re
 
-from typing import List, Any
+from typing import List, Any, Pattern
 
 
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
@@ -46,6 +47,10 @@ def create_movie_list() -> None:
         file_name += 'NoName'
     while True:
         file_name += '.txt'
+        file_name_show: str = 'Файл: ' + file_name
+        clear()
+        print(file_name_show)
+        separate(value=len(file_name_show))
         file_name = path_to_file(file_name)
         if not os.path.exists(file_name):
             print(
@@ -123,18 +128,31 @@ def random_movie(filename: str) -> None:
     file_path = path_to_file(filename)
     with open(file_path, 'r') as fin:
         movie_list_for_random: List[str] = [movie.rstrip() for movie in fin]
-    print('Ваш фильм на сегодня:', random.choice(movie_list_for_random))
+    rand_film: str = random.choice(movie_list_for_random)
+    print('Ваш фильм на сегодня:', rand_film)
     separate()
-    process_movie(filename)
+    process_movie(filename, rand_film)
 
 
-def delete_selected_movie(filename: str):
+def delete_selected_movie(filename: str, moviename: str) -> None:
     """Удаляет выбранный фильм."""
+    file_path = path_to_file(filename)
+    pattern: Pattern[str] = re.compile(re.escape(moviename))
+    with open(file_path, 'r+') as fstream:
+        movies: List[str] = fstream.readlines()
+        fstream.seek(0)
+        for movie in movies:
+            result = pattern.search(movie)
+            if result is None:
+                fstream.write(movie)
+            fstream.truncate()
+    clear()
+    print(f'Фильм \"{moviename}\" удален из списка {filename}')
+    input('<Enter>')
+    return
 
-    ...
 
-
-def process_movie(filename: str) -> None:
+def process_movie(filename: str, moviename: str) -> None:
     """Доступные действия со случайным фильмом."""
     SELECT_ACTION: List[str] = [
         '',
@@ -154,11 +172,13 @@ def process_movie(filename: str) -> None:
             if answer.lower() not in SELECT_ACTION:
                 raise Exception
             if answer.lower() in ['yes', 'y', 'да', 'д']:
-                delete_selected_movie(filename)
+                delete_selected_movie(filename, moviename)
+                return
             if answer.lower() in ['no', 'n', 'нет', 'н']:
                 clear()
                 loading_imitation('Попробуем ещё раз', 2, 0.2)
                 random_movie(filename)
+            break
         except Exception:
             print('[Error] Выберите доступные действия из меню')
             print(MENU_MSG)
