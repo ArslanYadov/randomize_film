@@ -210,10 +210,9 @@ def add_file(filename) -> None:
 
 def exit() -> None:
     """Закрытие программы."""
-    print('Выход.')
-    time.sleep(0.7)
     print('Спасибо за использование программы.')
     time.sleep(0.7)
+    clear()
     print('Программа завершается.')
     time.sleep(0.7)
     clear()
@@ -225,7 +224,7 @@ def say_hello() -> None:
     clear()
     hello_msg = 'Добро пожаловать в программу по случайному выбору фильма!'
     print(hello_msg)
-    print('=' * len(hello_msg))
+    separate('=', len(hello_msg))
     time.sleep(2)
 
 
