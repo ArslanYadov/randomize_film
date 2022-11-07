@@ -1,5 +1,4 @@
 # TO DO:
-# сделать возможность удалить выбранный в рандоме фильм
 # использую import logging написать логгирование ошибок
 import os
 import sys
@@ -11,7 +10,9 @@ from typing import List, Any, Pattern
 
 
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
-PATH_TO_FOLDER: str = os.path.expanduser(r'~/Dev/randomize_film/randomize_film/Movie List')
+PATH_TO_FOLDER: str = os.path.expanduser(
+    r'~/Dev/randomize_film/randomize_film/Movie List'
+)
 
 
 def separate(symbol: str = '-', value: int = 20) -> None:
@@ -112,7 +113,10 @@ def length_for_separate(movie_list: List[str]) -> int:
 
 def select_movie_list() -> None:
     """Выбрать список из имеющихся."""
-    SELECT_FILE_MSG: str = 'Выберите файл из списка <пустая строка для возврата назад>: '
+    SELECT_FILE_MSG: str = (
+        'Выберите файл из списка '
+        '<пустая строка для возврата назад>: '
+    )
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
 
     all_movie_list: List[str] = get_all_movie_list()
@@ -170,7 +174,11 @@ def process_movie(filename: str, moviename: str) -> None:
         'да', 'д',
         'нет', 'н',
     ]
-    MENU_MSG: str = 'Выбрать и удалить из списка: <да> | Ещё попытка: <нет> | Назад: <Enter>'
+    MENU_MSG: str = (
+        'Выбрать и удалить из списка: <да> | '
+        'Ещё попытка: <нет> | '
+        'Назад: <Enter>'
+    )
 
     print(MENU_MSG)
     while True:
@@ -222,7 +230,10 @@ def read_file(filename) -> None:
 
 def add_file(filename) -> None:
     """Добавить фильм в конец списка."""
-    INPUT_MSG: str = 'Введите название фильма <пустая строка для возврата назад>: '
+    INPUT_MSG: str = (
+        'Введите название фильма '
+        '<пустая строка для возврата назад>: '
+    )
 
     new_movie_list: List[str] = []
     movie: str = input(INPUT_MSG)
@@ -241,7 +252,11 @@ def add_file(filename) -> None:
     return
 
 
-def loading_imitation(message: str, cycle: int = 0, seconds: float = 0) -> None:
+def loading_imitation(
+    message: str,
+    cycle: int = 0,
+    seconds: float = 0
+) -> None:
     """Имитация загрузки."""
     for _ in range(cycle):
         print(message + '.')
@@ -267,7 +282,11 @@ def exit() -> None:
 def say_hello() -> None:
     """Приветствие."""
     clear()
-    HELLO_MSG: str = 'Добро пожаловать в программу по случайному выбору фильма!'
+    HELLO_MSG: str = (
+        'Добро пожаловать в программу '
+        'по выбору случайного фильма!'
+    )
+
     print(HELLO_MSG)
     separate('=', len(HELLO_MSG))
     time.sleep(2)
