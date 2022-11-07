@@ -155,7 +155,6 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
 def process_movie(filename: str, moviename: str) -> None:
     """Доступные действия со случайным фильмом."""
     SELECT_ACTION: List[str] = [
-        '',
         'yes', 'y',
         'no', 'n',
         'да', 'д',
