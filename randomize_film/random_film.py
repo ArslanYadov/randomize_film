@@ -1,4 +1,5 @@
 # TO DO:
+# при удалении выбранного фильма с конца, вместо него записывается пустое место
 # использую import logging написать логгирование ошибок
 import os
 import sys
@@ -143,8 +144,9 @@ def random_movie(filename: str) -> None:
     with open(file_path, 'r') as fin:
         movie_list_for_random: List[str] = [movie.rstrip() for movie in fin]
     rand_film: str = random.choice(movie_list_for_random)
-    print('Ваш фильм на сегодня:', rand_film)
-    separate()
+    selected_movie: str = 'Ваш фильм на сегодня: ' + rand_film
+    print(selected_movie)
+    separate(value=len(selected_movie))
     process_movie(filename, rand_film)
 
 
@@ -302,9 +304,9 @@ def show_menu(filename=None) -> int:
     clear()
     if filename is not None:
         menu_buttons.append(3)
-
-        print('Файл:', filename)
-        separate()
+        file_name_msg: str = 'Файл: ' + filename
+        print(file_name_msg)
+        separate(value=len(file_name_msg))
         menu_choices: str = (
             '1. Показать список.\n'
             '2. Добавить в список.\n'
