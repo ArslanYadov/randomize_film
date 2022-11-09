@@ -8,30 +8,20 @@ import time
 import random
 import re
 
-from typing import List, Any, Pattern
+from typing import List, Pattern
 
-from clear import clear
-from load import loading_imitation
-from empty_input import empty_input
+from utils import (
+    clear,
+    loading_imitation,
+    is_empty,
+    empty_input,
+    separate,
+    path_to_file,
+    PATH_TO_FOLDER
+)
 
 
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
-PATH_TO_FOLDER: str = os.path.expanduser(r'~/Movie List')
-
-
-def separate(symbol: str = '-', value: int = 20) -> None:
-    """Отделяет название от меню."""
-    print(symbol * value)
-
-
-def path_to_file(filename) -> str:
-    """Возвращает путь к выбранному файлу."""
-    return os.path.join(PATH_TO_FOLDER, filename)
-
-
-def is_empty(variable: Any) -> bool:
-    """Проверка для пустого ввода."""
-    return len(variable) == 0
 
 
 def create_movie_list() -> None:
@@ -43,8 +33,8 @@ def create_movie_list() -> None:
     count: int = 1
     while True:
         if not is_empty(file_name):
-            file_name += '.txt'
             filename: str = file_name
+            file_name += '.txt'
             file_name_show: str = 'Файл: ' + file_name
             clear()
             print(file_name_show)
@@ -69,7 +59,7 @@ def create_movie_list() -> None:
                     with open(file_name, 'w') as fout:
                         fout.writelines('\n'.join(movie_list))
                 clear()
-                input(f'Список {filename} создан.\n<Enter>')
+                input(f'Список \"{filename}\" создан.\n<Enter>')
                 return
             print('Файл с таким именем уже существует! Попробуйте снова.')
             file_name = input('Введите другое название файла: ')
@@ -285,7 +275,7 @@ def show_menu(filename=None) -> int:
         separate(value=len(file_name_msg))
         menu_choices: str = (
             '1. Показать список.\n'
-            '2. Добавить в список.\n'
+            '2. Добавить фильм в список.\n'
             '3. Выбрать случайный фильм из списка.\n'
             '0. Назад.'
         )
