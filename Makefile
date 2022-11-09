@@ -29,10 +29,7 @@ run: ## запустить консольное приложение
 run: 
 	cd $(MANAGE_PATH); python3 random_film.py
 
-leave: ## очистка и деактивация виртуального окружения
-leave: clean
-	deactivate
 
 clean: ## очистка кэша
 clean:
-	find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+	cd $(MANAGE_PATH); rm -rf __pycache__
