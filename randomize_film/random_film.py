@@ -72,11 +72,9 @@ def create_movie_list() -> None:
 
 def get_all_movie_list() -> List[str]:
     """Получить все имеющиеся списки."""
-    all_movie_list: List[str] = []
     if os.path.isdir(PATH_TO_FOLDER):
         for _, _, files in os.walk(PATH_TO_FOLDER):
-            for filename in files:
-                all_movie_list.append(filename)
+            all_movie_list: List[str] = [file for file in files]
     if not is_empty(all_movie_list):
         all_movie_list.sort()
         return all_movie_list
