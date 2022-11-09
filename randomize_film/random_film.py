@@ -36,45 +36,39 @@ def create_movie_list() -> None:
     if not os.path.isdir(PATH_TO_FOLDER):
         os.mkdir(PATH_TO_FOLDER)
 
-    file_name: str = input('\nВведите название списка: ')
-    count: int = 1
+    file_name: str = input(f'\nВведите название списка. {STEP_BACK}')
     while True:
-        if not is_empty(file_name):
-            filename: str = file_name
-            file_name += '.txt'
-            file_name_show: str = 'Файл: ' + file_name
+        if is_empty(file_name):
+            return
+        filename: str = file_name
+        file_name += '.txt'
+        file_name_show: str = 'Файл: ' + file_name
+        file_name = path_to_file(file_name)
+        if not os.path.exists(file_name):
             clear()
             print(file_name_show)
             separate(value=len(file_name_show))
-            file_name = path_to_file(file_name)
-            if not os.path.exists(file_name):
-                print(
-                    'Введите название фильма.\n'
-                    'Для разделения фильмов используйте <Enter>.\n'
-                    'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
-                )
-                movie_list: List[str] = []
-                title: str = ''
-                i: int = 1
-                while True:
-                    title = input(f'#{i}: ')
-                    if title.lower() in EXIT_COMMANDS:
-                        break
-                    movie_list.append(title)
-                    i += 1
-                if not is_empty(movie_list):
-                    with open(file_name, 'w') as fout:
-                        fout.writelines('\n'.join(movie_list))
-                    clear()
-                    input(f'Список \"{filename}\" создан.\n{STEP_BACK}')
-                return
-            print('Файл с таким именем уже существует! Попробуйте снова.')
-            file_name = input('Введите другое название файла: ')
-        clear()
-        empty_input(count)
-        if count > 10:
+            print(
+                'Введите название фильма.\n'
+                'Для разделения фильмов используйте <Enter>.\n'
+                'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
+            )
+            movie_list: List[str] = []
+            title: str = ''
+            i: int = 1
+            while True:
+                title = input(f'#{i}: ')
+                if title.lower() in EXIT_COMMANDS:
+                    break
+                movie_list.append(title)
+                i += 1
+            if not is_empty(movie_list):
+                with open(file_name, 'w') as fout:
+                    fout.writelines('\n'.join(movie_list))
+                clear()
+                input(f'Список \"{filename}\" создан.\n{STEP_BACK}')
             return
-        count += 1
+        print('Файл с таким именем уже существует! Попробуйте снова.')
         file_name = input('Введите другое название файла: ')
 
 
@@ -123,6 +117,7 @@ def read_add_file(filename: str, choice_number: int) -> None:
         1: read_file,
         2: add_file,
         3: random_movie,
+        4: delete_list
     }
     menu[choice_number](filename)
     read_add_file(filename, show_menu(filename))
@@ -259,6 +254,11 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
     return
 
 
+def delete_list():
+    """Удаление выбранного списка."""
+
+
+
 def exit() -> None:
     """Закрытие программы."""
     print('Спасибо за использование программы.')
@@ -290,7 +290,7 @@ def show_menu(filename=None) -> int:
 
     clear()
     if filename is not None:
-        menu_buttons.append(3)
+        menu_buttons.append([3, 4])
         file_name_msg: str = 'Файл: ' + filename
         print(file_name_msg)
         separate(value=len(file_name_msg))
@@ -298,6 +298,7 @@ def show_menu(filename=None) -> int:
             '1. Показать список.\n'
             '2. Добавить фильм в список.\n'
             '3. Выбрать случайный фильм из списка.\n'
+            '4. Удалить список.\n'
             '0. Назад.'
         )
         print(menu_choices)
