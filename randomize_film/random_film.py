@@ -12,7 +12,6 @@ from utils import (
     clear,
     loading_imitation,
     is_empty,
-    empty_input,
     separate,
     path_to_file,
     PATH_TO_FOLDER
@@ -55,7 +54,9 @@ def create_movie_list() -> None:
                 i += 1
             if not is_empty(movie_list):
                 with open(file_name, 'w') as fout:
-                    fout.writelines('\n'.join(movie_list))
+                    for movie in movie_list:
+                        fout.write(movie + '\n')
+                    fout.truncate()
                 clear()
                 input(f'Список \"{filename}\" создан.\n{STEP_BACK}')
             return
