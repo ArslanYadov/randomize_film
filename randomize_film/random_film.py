@@ -243,7 +243,6 @@ def add_file(filename) -> None:
         print(*new_movie_list, sep='\n')
         separate()
         movie: str = input(INPUT_MSG)
-    print(new_movie_list)
     if not is_empty(new_movie_list):
         with open(path_to_file(filename), 'a') as fstream:
             if os.path.getsize(file_path) != 0:
