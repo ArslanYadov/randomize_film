@@ -1,4 +1,4 @@
-MANAGE_PATH='.'
+MANAGE_PATH='./randomize_film'
 
 define find.functions
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -10,4 +10,4 @@ help: ## вывод доступных команд
 	$(call find.functions)
 start: ## запустить консольное приложение
 start: 
-	python3 random_film.py
+	cd $(MANAGE_PATH); python3 random_film.py
