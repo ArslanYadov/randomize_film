@@ -26,7 +26,7 @@ SELECT_ACTION: List[str] = [
     'да', 'д',
     'нет', 'н',
 ]
-STEP_BACK: str = '<Enter>'
+STEP_BACK: str = '<Enter> для возврата назад: '
 
 
 def create_movie_list() -> None:
@@ -81,8 +81,8 @@ def create_movie_list() -> None:
 def select_movie_list() -> None:
     """Выбрать список из имеющихся."""
     SELECT_FILE_MSG: str = (
-        'Выберите файл из списка '
-        f'{STEP_BACK} для возврата назад: '
+        'Выберите файл из списка. '
+        f'{STEP_BACK}'
     )
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
 
@@ -146,7 +146,7 @@ def get_all_movie_list() -> List[str]:
 def read_file(filename) -> None:
     """Показать список."""
     if os.path.getsize(path_to_file(filename)) == 0:
-        input(f'Тут ещё ничего нет. {STEP_BACK} чтобы вернуться назад: ')
+        input(f'Тут ещё ничего нет. {STEP_BACK}')
         return
     with open(path_to_file(filename), 'r') as fin:
         for num, movie in enumerate(fin, start=1):
@@ -160,8 +160,8 @@ def read_file(filename) -> None:
 def add_file(filename) -> None:
     """Добавить фильм в конец списка."""
     INPUT_MSG: str = (
-        'Введите название фильма '
-        f'{STEP_BACK} строка для возврата назад: '
+        'Введите название фильма. '
+        f'{STEP_BACK}'
     )
 
     new_movie_list: List[str] = []
@@ -188,7 +188,10 @@ def random_movie(filename: str) -> None:
     with open(file_path, 'r') as fin:
         movie_list_for_random: List[str] = [movie.rstrip() for movie in fin]
     if is_empty(movie_list_for_random):
-        input(f'Нельзя выбрать фильм из пустого списка. Наполните его фильмами.\n{STEP_BACK}')
+        input(
+            'Нельзя выбрать фильм из пустого списка. '
+            'Наполните его фильмами.\n'
+            f'{STEP_BACK} для возврата назад: ')
         return
     rand_film: str = random.choice(movie_list_for_random)
     selected_movie: str = 'Ваш фильм на сегодня: ' + rand_film
