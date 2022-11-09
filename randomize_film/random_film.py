@@ -1,5 +1,6 @@
 # TO DO:
 # при удалении выбранного фильма с конца, вместо него записывается пустое место
+# добавить возможность удалить список целиком
 # использую import logging написать логгирование ошибок
 import os
 import sys
@@ -44,11 +45,12 @@ def create_movie_list() -> None:
     if not os.path.isdir(PATH_TO_FOLDER):
         os.mkdir(PATH_TO_FOLDER)
 
-    file_name: str = input('\nВведите название файла: ')
+    file_name: str = input('\nВведите название списка: ')
     count: int = 1
     while True:
         if not is_empty(file_name):
             file_name += '.txt'
+            filename: str = file_name
             file_name_show: str = 'Файл: ' + file_name
             clear()
             print(file_name_show)
@@ -72,6 +74,8 @@ def create_movie_list() -> None:
                 if not is_empty(movie_list):
                     with open(file_name, 'w') as fout:
                         fout.writelines('\n'.join(movie_list))
+                clear()
+                input(f'Список {filename} создан.\n<Enter>')
                 return
             print('Файл с таким именем уже существует! Попробуйте снова.')
             file_name = input('Введите другое название файла: ')
