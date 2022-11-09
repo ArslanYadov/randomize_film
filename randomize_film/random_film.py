@@ -120,9 +120,10 @@ def read_add_file(filename: str, choice_number: int) -> None:
 
 def get_all_movie_list() -> List[str]:
     """Получить все имеющиеся списки."""
+    all_movie_list: Dict[str, str] = {}
     if os.path.isdir(PATH_TO_FOLDER):
         for _, _, files in os.walk(PATH_TO_FOLDER):
-            all_movie_list: Dict[str, str] = {
+            all_movie_list = {
                 str(id): file[:-4] for (id, file) in enumerate(files, start=1)
             }
     if not is_empty(all_movie_list):

@@ -36,3 +36,6 @@ rvenv:
 clean: ## очистка кэша
 clean:
 	cd $(MANAGE_PATH); rm -rf __pycache__
+
+leave: ## удалить виртуальное окружение и очистить кэш
+leave: rvenv clean
