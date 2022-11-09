@@ -1,3 +1,4 @@
+VENV=venv
 MANAGE_PATH='./randomize_film'
 
 define find.functions
@@ -8,6 +9,30 @@ help: ## вывод доступных команд
 	@echo 'Список доступных команд.'
 	@echo ''
 	$(call find.functions)
-start: ## запустить консольное приложение
-start: 
+setup: ## установить и запустить консольное приложение
+setup: venv pipin init run
+
+venv: ## установка и активация виртуального окружения
+venv:
+	python3 -m venv $(VENV)
+	. $(VENV)/bin/activate
+
+pipin: ## установка/обновление pip
+pipin:
+	pip install -U pip
+
+init: ## установка зависимостей из requirements.txt
+init:
+	pip install -r requirements.txt
+
+run: ## запустить консольное приложение
+run: 
 	cd $(MANAGE_PATH); python3 random_film.py
+
+leave: ## очистка и деактивация виртуального окружения
+leave: clean
+	deactivate
+
+clean: ## очистка кэша
+clean:
+	find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
