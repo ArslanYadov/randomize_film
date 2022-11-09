@@ -21,11 +21,10 @@ from utils import (
 )
 
 
-EXIT_COMMANDS: List[str] = ['quit', 'q', '']
-
-
 def create_movie_list() -> None:
     """Создать в каталоге список фильмов."""
+    EXIT_COMMANDS: List[str] = ['quit', 'q', '']
+
     if not os.path.isdir(PATH_TO_FOLDER):
         os.mkdir(PATH_TO_FOLDER)
 
@@ -58,8 +57,8 @@ def create_movie_list() -> None:
                 if not is_empty(movie_list):
                     with open(file_name, 'w') as fout:
                         fout.writelines('\n'.join(movie_list))
-                clear()
-                input(f'Список \"{filename}\" создан.\n<Enter>')
+                    clear()
+                    input(f'Список \"{filename}\" создан.\n<Enter>')
                 return
             print('Файл с таким именем уже существует! Попробуйте снова.')
             file_name = input('Введите другое название файла: ')
@@ -79,6 +78,7 @@ def get_all_movie_list() -> List[str]:
             for filename in files:
                 all_movie_list.append(filename)
     if not is_empty(all_movie_list):
+        all_movie_list.sort()
         return all_movie_list
     print('У вас нет ни одного списка с фильмами.')
     input('<Enter>')
