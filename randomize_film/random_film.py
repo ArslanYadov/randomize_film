@@ -262,7 +262,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
 def exit() -> None:
     """Закрытие программы."""
     print('Спасибо за использование программы.')
-    time.sleep(0.7)
+    time.sleep(1)
     clear()
     loading_imitation('Программа завершается', 2, 0.7)
     sys.exit()
