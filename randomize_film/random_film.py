@@ -268,7 +268,7 @@ def delete_list(filename: str) -> None:
     os.remove(path_to_file(filename))
     clear()
     input(f'Список \"{filename}\" удален из каталога.\n{STEP_BACK}')
-    show_menu()
+    menu()
 
 
 def exit() -> None:
@@ -344,9 +344,8 @@ def show_menu(filename=None) -> int:
     return choose_button
 
 
-def main() -> None:
-    """Основная логика программы."""
-    say_hello()
+def menu() -> None:
+    """Меню приложения."""
     while True:
         choice_number: int = show_menu()
         menu_list = {
@@ -356,6 +355,11 @@ def main() -> None:
         }
         menu_list[choice_number]()
 
+
+def main() -> None:
+    """Основная логика программы."""
+    say_hello()
+    menu()
 
 if __name__ == '__main__':
     main()
