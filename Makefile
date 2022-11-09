@@ -29,7 +29,6 @@ run: ## запустить консольное приложение
 run: 
 	cd $(MANAGE_PATH); python3 random_film.py
 
-
 clean: ## очистка кэша
 clean:
 	cd $(MANAGE_PATH); rm -rf __pycache__
