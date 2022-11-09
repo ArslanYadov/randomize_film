@@ -1,7 +1,5 @@
 # TO DO:
-# при удалении выбранного фильма с конца, вместо него записывается пустое место
-# добавить возможность удалить список целиком
-# использую import logging написать логгирование ошибок
+# добавить логгирование
 import os
 import sys
 import time
@@ -332,9 +330,16 @@ def show_menu(filename=None) -> int:
                 raise Exception
             break
         except ValueError:
-            print('[Error] Неверный формат. Необходимо ввести число.')
+            clear()
+            error: str = '[Error] Неверный формат. Необходимо ввести число.'
+            print(error)
+            separate(value=len(error))
+            print(menu_choices)
         except Exception:
-            print('[Error] Выберите доступные действия из меню')
+            clear()
+            error: str = '[Error] Выберите доступные действия из меню'
+            print(error)
+            separate(value=len(error))
             print(menu_choices)
     clear()
     return choose_button
