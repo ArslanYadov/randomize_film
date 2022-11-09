@@ -99,6 +99,10 @@ def select_movie_list() -> None:
                 )
                 break
             else:
+                clear()
+                for id, filename in all_movie_list.items():
+                    print(f'{id}: {filename}')
+                separate(value=len(SELECT_FILE_MSG))
                 print(FILE_NOT_EXIST)
                 edit_file = input(SELECT_FILE_MSG)
 
