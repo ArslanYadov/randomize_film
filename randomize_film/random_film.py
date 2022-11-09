@@ -8,7 +8,7 @@ import time
 import random
 import re
 
-from typing import List, Pattern
+from typing import List, Dict, Pattern
 
 from utils import (
     clear,
@@ -74,9 +74,10 @@ def get_all_movie_list() -> List[str]:
     """Получить все имеющиеся списки."""
     if os.path.isdir(PATH_TO_FOLDER):
         for _, _, files in os.walk(PATH_TO_FOLDER):
-            all_movie_list: List[str] = [file for file in files]
+            all_movie_list: Dict[str, str] = {
+                str(id): file[:-4] for (id, file) in enumerate(files, start=1)
+            }
     if not is_empty(all_movie_list):
-        all_movie_list.sort()
         return all_movie_list
     print('У вас нет ни одного списка с фильмами.')
     input('<Enter>')
@@ -91,17 +92,25 @@ def select_movie_list() -> None:
     )
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
 
-    all_movie_list: List[str] = get_all_movie_list()
+    all_movie_list: Dict[str, str] = get_all_movie_list()
     if all_movie_list is not None:
-        print(*all_movie_list, sep='\n')
+        for id, filename in all_movie_list.items():
+            print(f'{id}: {filename}')
         separate(value=len(SELECT_FILE_MSG))
         edit_file: str = input(SELECT_FILE_MSG)
         while True:
             if is_empty(edit_file):
                 return
-            edit_file += '.txt'
-            if edit_file in all_movie_list:
+            if edit_file in all_movie_list.values():
+                edit_file += '.txt'
                 read_add_file(edit_file, show_menu(edit_file))
+                break
+            elif edit_file in all_movie_list:
+                all_movie_list[edit_file] += '.txt'
+                read_add_file(
+                    all_movie_list[edit_file],
+                    show_menu(all_movie_list[edit_file])
+                )
                 break
             else:
                 print(FILE_NOT_EXIST)
