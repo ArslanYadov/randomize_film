@@ -1,2 +1,28 @@
-# randomize_film
-Can't choose what to watch from movie list? Just use this app
+# RandFE
+### Описание
+**RandFE** - Random Film on Evening
+
+Не можешь определиться с фильмом на вечер? **RandFE** сделает это за тебя
+### Возможности
+* Создай свой список фильмов.
+* Наполняй списки.
+* Добавляй фильмы в уже имеющиеся списки.
+* Удаляй ненужные списки.
+### Технологии
+* [Python 3.10.6](https://docs.python.org/3.10/)
+## Запуск проекта
+- Перейти в корневой каталог и установить свой путь до каталога, где будут храниться списки
+в ```PATH_TO_FOLDER``` из файла ```constant.py```
+- Выполнить `make start` и следовать по меню.
+``` make
+$ make start
+```
+- Для просомтра доступных команд выполните `make help`
+```make
+$ make help
+```
+## Автор проекта и контакты
+Арслан Ядов
+
+E-mail:
+[Arslan Yadov](mailto:arslanyadov@yandex.ru?subject=RandFE)
