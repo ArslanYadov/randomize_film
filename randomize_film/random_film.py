@@ -111,7 +111,7 @@ def read_add_file(filename: str, choice_number: int) -> None:
     Добавить в список.
     Выбрать случайный фильм из списка.
     """
-    if choice_number not in [1, 2, 3]:
+    if choice_number not in [1, 2, 3, 4]:
         return
     menu: dict = {
         1: read_file,
@@ -254,9 +254,24 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
     return
 
 
-def delete_list():
-    """Удаление выбранного списка."""
-
+def delete_list(filename: str):
+    """Удаление выбранного списка из каталога."""
+    while True:
+        try:
+            answer: str = input(
+                f'Вы уверены, что хотите удалить \"{filename}\" из списка? [Да/Нет]: '
+            )
+            if answer.lower() not in SELECT_ACTION:
+                raise Exception
+            break
+        except Exception:
+            print('[Error] Да - удалить | Нет - вернуться назад.')
+    if answer.lower() not in ['yes', 'y', 'да', 'д']:
+        return
+    os.remove(path_to_file(filename))
+    clear()
+    input(f'Список \"{filename}\" удален из каталога.\n{STEP_BACK}')
+    show_menu()
 
 
 def exit() -> None:
@@ -290,7 +305,7 @@ def show_menu(filename=None) -> int:
 
     clear()
     if filename is not None:
-        menu_buttons.append([3, 4])
+        menu_buttons.extend([3, 4])
         file_name_msg: str = 'Файл: ' + filename
         print(file_name_msg)
         separate(value=len(file_name_msg))
