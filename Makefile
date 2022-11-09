@@ -9,8 +9,8 @@ help: ## вывод доступных команд
 	@echo 'Список доступных команд.'
 	@echo ''
 	$(call find.functions)
-setup: ## установить консольное приложение
-setup: venv pipin init
+setup: ## установить и запустить консольное приложение
+setup: venv pipin init run
 
 venv: ## установка и активация виртуального окружения
 venv:
