@@ -83,17 +83,6 @@ def get_all_movie_list() -> List[str]:
     return None
 
 
-def length_for_separate(movie_list: List[str]) -> int:
-    """Высчитывает количество символов для разделителя."""
-    total: int = 0
-    for i in range(len(movie_list)):
-        if i == len(movie_list) - 1:
-            total += len(movie_list[i])
-            break
-        total += len(movie_list[i]) + 3
-    return total
-
-
 def select_movie_list() -> None:
     """Выбрать список из имеющихся."""
     SELECT_FILE_MSG: str = (
@@ -104,9 +93,8 @@ def select_movie_list() -> None:
 
     all_movie_list: List[str] = get_all_movie_list()
     if all_movie_list is not None:
-        print(*all_movie_list, sep=' | ')
-        sep_len: int = length_for_separate(all_movie_list)
-        separate(value=(sep_len))
+        print(*all_movie_list, sep='\n')
+        separate(value=len(SELECT_FILE_MSG))
         edit_file: str = input(SELECT_FILE_MSG)
         while True:
             if is_empty(edit_file):
