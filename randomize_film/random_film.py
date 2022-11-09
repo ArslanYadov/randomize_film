@@ -138,7 +138,7 @@ def get_all_movie_list() -> List[str]:
     return None
 
 
-def read_file(filename) -> None:
+def read_file(filename: str) -> None:
     """Показать список."""
     if os.path.getsize(path_to_file(filename)) == 0:
         input(f'Тут ещё ничего нет. {STEP_BACK}')
@@ -152,7 +152,7 @@ def read_file(filename) -> None:
             return
 
 
-def add_file(filename) -> None:
+def add_file(filename: str) -> None:
     """Добавить фильм в конец списка."""
     INPUT_MSG: str = (
         'Введите название фильма. '
@@ -254,7 +254,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
     return
 
 
-def delete_list(filename: str):
+def delete_list(filename: str) -> None:
     """Удаление выбранного списка из каталога."""
     while True:
         try:
