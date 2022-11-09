@@ -10,11 +10,13 @@ import re
 
 from typing import List, Any, Pattern
 
+from clear import clear
+from load import loading_imitation
+from empty_input import empty_input
+
 
 EXIT_COMMANDS: List[str] = ['quit', 'q', '']
-PATH_TO_FOLDER: str = os.path.expanduser(
-    r'~/Dev/randomize_film/randomize_film/Movie List'
-)
+PATH_TO_FOLDER: str = os.path.expanduser(r'~/Movie List')
 
 
 def separate(symbol: str = '-', value: int = 20) -> None:
@@ -25,14 +27,6 @@ def separate(symbol: str = '-', value: int = 20) -> None:
 def path_to_file(filename) -> str:
     """Возвращает путь к выбранному файлу."""
     return os.path.join(PATH_TO_FOLDER, filename)
-
-
-def clear() -> None:
-    """Очистака консоли."""
-    if os.name == 'nt':
-        _ = os.system('cls')
-    else:
-        _ = os.system('clear')
 
 
 def is_empty(variable: Any) -> bool:
@@ -80,12 +74,8 @@ def create_movie_list() -> None:
             print('Файл с таким именем уже существует! Попробуйте снова.')
             file_name = input('Введите другое название файла: ')
         clear()
-        if count < 10:
-            print('Имя файла не может быть пустым.')
-        elif count == 10:
-            loading_imitation('Проверяю', 10, .4)
-            print('Нет, все же имя файла не может быть пустым.')
-        else:
+        empty_input(count)
+        if count > 10:
             return
         count += 1
         file_name = input('Введите другое название файла: ')
@@ -256,24 +246,6 @@ def add_file(filename) -> None:
             fstream.write('\n')
             fstream.writelines('\n'.join(new_movie_list))
     return
-
-
-def loading_imitation(
-    message: str,
-    cycle: int = 0,
-    seconds: float = 0
-) -> None:
-    """Имитация загрузки."""
-    for _ in range(cycle):
-        print(message + '.')
-        time.sleep(seconds)
-        clear()
-        print(message + '..')
-        time.sleep(seconds)
-        clear()
-        print(message + '...')
-        time.sleep(seconds)
-        clear()
 
 
 def exit() -> None:
