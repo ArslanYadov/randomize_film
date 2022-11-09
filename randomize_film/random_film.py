@@ -20,6 +20,13 @@ from utils import (
     PATH_TO_FOLDER
 )
 
+SELECT_ACTION: List[str] = [
+    'yes', 'y',
+    'no', 'n',
+    'да', 'д',
+    'нет', 'н',
+]
+
 
 def create_movie_list() -> None:
     """Создать в каталоге список фильмов."""
@@ -122,6 +129,9 @@ def random_movie(filename: str) -> None:
     file_path = path_to_file(filename)
     with open(file_path, 'r') as fin:
         movie_list_for_random: List[str] = [movie.rstrip() for movie in fin]
+    if is_empty(movie_list_for_random):
+        input('Нельзя выбрать фильм из пустого списка. Наполните его фильмами.\n<Enter>')
+        return
     rand_film: str = random.choice(movie_list_for_random)
     selected_movie: str = 'Ваш фильм на сегодня: ' + rand_film
     print(selected_movie)
@@ -131,8 +141,21 @@ def random_movie(filename: str) -> None:
 
 def delete_selected_movie(filename: str, moviename: str) -> None:
     """Удаляет выбранный фильм."""
+    clear()
     file_path = path_to_file(filename)
     pattern: Pattern[str] = re.compile(re.escape(moviename))
+    while True:
+        try:
+            answer: str = input(
+                f'Вы уверены, что хотите удалить \"{moviename}\" из списка? [Да/Нет]: '
+            )
+            if answer.lower() not in SELECT_ACTION:
+                raise Exception
+            break
+        except Exception:
+            print('[Error] Да - удалить | Нет - вернуться назад.')
+    if answer.lower() not in ['yes', 'y', 'да', 'д']:
+        return
     with open(file_path, 'r+') as fstream:
         movies: List[str] = fstream.readlines()
         fstream.seek(0)
@@ -142,19 +165,12 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
                 fstream.write(movie)
             fstream.truncate()
     clear()
-    print(f'Фильм \"{moviename}\" удален из списка {filename}')
-    input('<Enter>')
+    input(f'Фильм \"{moviename}\" удален из списка {filename}.\n<Enter>')
     return
 
 
 def process_movie(filename: str, moviename: str) -> None:
     """Доступные действия со случайным фильмом."""
-    SELECT_ACTION: List[str] = [
-        'yes', 'y',
-        'no', 'n',
-        'да', 'д',
-        'нет', 'н',
-    ]
     MENU_MSG: str = (
         'Выбрать и удалить из списка: <да> | '
         'Ещё попытка: <нет> | '
@@ -221,14 +237,13 @@ def add_file(filename) -> None:
     while True:
         if is_empty(movie):
             break
-        new_movie_list.append(movie)
+        new_movie_list.append(movie.rstrip())
         clear()
         print(*new_movie_list, sep='\n')
         separate()
         movie: str = input(INPUT_MSG)
     if not is_empty(new_movie_list):
         with open(path_to_file(filename), 'a') as fstream:
-            fstream.write('\n')
             fstream.writelines('\n'.join(new_movie_list))
     return
 
