@@ -3,8 +3,7 @@ import time
 
 from typing import Any
 
-
-PATH_TO_FOLDER: str = os.path.expanduser(r'~/Movie List')
+from constant import PATH_TO_FOLDER
 
 
 def clear() -> None:

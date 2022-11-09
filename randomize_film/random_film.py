@@ -17,14 +17,7 @@ from utils import (
     path_to_file,
     PATH_TO_FOLDER
 )
-
-SELECT_ACTION: List[str] = [
-    'yes', 'y',
-    'no', 'n',
-    'да', 'д',
-    'нет', 'н',
-]
-STEP_BACK: str = '<Enter> для возврата назад: '
+from constant import SELECT_ACTION, STEP_BACK
 
 
 def create_movie_list() -> None:
