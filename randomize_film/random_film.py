@@ -227,6 +227,7 @@ def read_file(filename) -> None:
 
 def add_file(filename) -> None:
     """Добавить фильм в конец списка."""
+    file_path = path_to_file(filename)
     INPUT_MSG: str = (
         'Введите название фильма '
         '<пустая строка для возврата назад>: '
@@ -237,13 +238,16 @@ def add_file(filename) -> None:
     while True:
         if is_empty(movie):
             break
-        new_movie_list.append(movie.rstrip())
+        new_movie_list.append(movie)
         clear()
         print(*new_movie_list, sep='\n')
         separate()
         movie: str = input(INPUT_MSG)
+    print(new_movie_list)
     if not is_empty(new_movie_list):
         with open(path_to_file(filename), 'a') as fstream:
+            if os.path.getsize(file_path) != 0:
+                fstream.write('\n')
             fstream.writelines('\n'.join(new_movie_list))
     return
 
