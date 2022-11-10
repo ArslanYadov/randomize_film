@@ -224,7 +224,6 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
     """Удаляет выбранный фильм."""
     clear()
     file_path = path_to_file(filename)
-    pattern: Pattern[str] = re.compile(re.escape(moviename))
     while True:
         try:
             answer: str = input(
@@ -241,8 +240,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
         movies: List[str] = fstream.readlines()
         fstream.seek(0)
         for movie in movies:
-            result = pattern.search(movie)
-            if result is None:
+            if movie != moviename + '\n':
                 fstream.write(movie)
             fstream.truncate()
     clear()
