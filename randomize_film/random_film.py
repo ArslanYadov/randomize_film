@@ -14,9 +14,13 @@ from utils import (
     is_empty,
     separate,
     path_to_file,
-    PATH_TO_FOLDER
+    confirm_to_delete
 )
-from constant import SELECT_ACTION, STEP_BACK
+from constant import (
+    PATH_TO_FOLDER,
+    SELECT_ACTION,
+    STEP_BACK
+)
 
 
 def create_movie_list() -> None:
@@ -224,17 +228,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
     """Удаляет выбранный фильм."""
     clear()
     file_path = path_to_file(filename)
-    while True:
-        try:
-            answer: str = input(
-                f'Вы уверены, что хотите удалить \"{moviename}\" из списка? [Да/Нет]: '
-            )
-            if answer.lower() not in SELECT_ACTION:
-                raise Exception
-            break
-        except Exception:
-            print('[Error] Да - удалить | Нет - вернуться назад.')
-    if answer.lower() not in ['yes', 'y', 'да', 'д']:
+    if not confirm_to_delete(moviename):
         return
     with open(file_path, 'r+') as fstream:
         movies: List[str] = fstream.readlines()
@@ -250,17 +244,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
 
 def delete_list(filename: str) -> None:
     """Удаление выбранного списка из каталога."""
-    while True:
-        try:
-            answer: str = input(
-                f'Вы уверены, что хотите удалить \"{filename}\" из списка? [Да/Нет]: '
-            )
-            if answer.lower() not in SELECT_ACTION:
-                raise Exception
-            break
-        except Exception:
-            print('[Error] Да - удалить | Нет - вернуться назад.')
-    if answer.lower() not in ['yes', 'y', 'да', 'д']:
+    if not confirm_to_delete(filename):
         return
     os.remove(path_to_file(filename))
     clear()
