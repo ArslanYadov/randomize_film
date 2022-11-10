@@ -25,8 +25,6 @@ from constant import (
 
 def create_movie_list() -> None:
     """Создать в каталоге список фильмов."""
-    EXIT_COMMANDS: List[str] = ['quit', 'q', '']
-
     if not os.path.isdir(PATH_TO_FOLDER):
         os.mkdir(PATH_TO_FOLDER)
 
@@ -42,17 +40,13 @@ def create_movie_list() -> None:
             clear()
             print(file_name_show)
             separate(value=len(file_name_show))
-            print(
-                'Введите название фильма.\n'
-                'Для разделения фильмов используйте <Enter>.\n'
-                'Чтобы выйти введите <q or quit> или оставьте пустое поле:'
-            )
+            print(f'Введите название фильма. {STEP_BACK}')
             movie_list: List[str] = []
             title: str = ''
             i: int = 1
             while True:
                 title = input(f'#{i}: ')
-                if title.lower() in EXIT_COMMANDS:
+                if is_empty(title):
                     break
                 movie_list.append(title)
                 i += 1
