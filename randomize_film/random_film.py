@@ -240,7 +240,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
         movies: List[str] = fstream.readlines()
         fstream.seek(0)
         for movie in movies:
-            if movie != moviename + '\n':
+            if movie.lower() != moviename + '\n':
                 fstream.write(movie)
             fstream.truncate()
     clear()
