@@ -143,7 +143,6 @@ def read_file(filename: str) -> None:
     with open(path_to_file(filename), 'r') as fin:
         for num, movie in enumerate(fin, start=1):
             print(f'{num}: {movie}', end='')
-        print()
         separate(value=len(STEP_BACK))
         if input(STEP_BACK):
             return
