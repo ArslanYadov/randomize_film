@@ -1,12 +1,7 @@
-# TO DO:
-# добавить логгирование
 import os
 import sys
 import time
 import random
-import re
-
-from typing import List, Dict, Pattern
 
 from utils import (
     clear,
@@ -41,7 +36,7 @@ def create_movie_list() -> None:
             print(file_name_show)
             separate(value=len(file_name_show))
             print(f'Введите название фильма. {STEP_BACK}')
-            movie_list: List[str] = []
+            movie_list: list[str] = []
             title: str = ''
             i: int = 1
             while True:
@@ -70,7 +65,7 @@ def select_movie_list() -> None:
     )
     FILE_NOT_EXIST: str = 'Такого файла не существует! Попробуйте снова.'
 
-    all_movie_list: Dict[str, str] = get_all_movie_list()
+    all_movie_list: dict[str, str] = get_all_movie_list()
     if all_movie_list is not None:
         for id, filename in all_movie_list.items():
             print(f'{id}: {filename}')
@@ -117,9 +112,9 @@ def read_add_file(filename: str, choice_number: int) -> None:
     read_add_file(filename, show_menu(filename))
 
 
-def get_all_movie_list() -> List[str]:
+def get_all_movie_list() -> list[str]:
     """Получить все имеющиеся списки."""
-    all_movie_list: Dict[str, str] = {}
+    all_movie_list: dict[str, str] = {}
     if os.path.isdir(PATH_TO_FOLDER):
         for _, _, files in os.walk(PATH_TO_FOLDER):
             all_movie_list = {
@@ -153,7 +148,7 @@ def add_file(filename: str) -> None:
         f'{STEP_BACK}'
     )
 
-    new_movie_list: List[str] = []
+    new_movie_list: list[str] = []
     movie: str = input(INPUT_MSG)
     while True:
         if is_empty(movie):
@@ -175,7 +170,7 @@ def random_movie(filename: str) -> None:
     """Выбрать рандомный фильм из списка."""
     file_path = path_to_file(filename)
     with open(file_path, 'r') as fin:
-        movie_list_for_random: List[str] = [movie.rstrip() for movie in fin]
+        movie_list_for_random: list[str] = [movie.rstrip() for movie in fin]
     if is_empty(movie_list_for_random):
         input(
             'Нельзя выбрать фильм из пустого списка. '
@@ -225,7 +220,7 @@ def delete_selected_movie(filename: str, moviename: str) -> None:
     if not confirm_to_delete(moviename):
         return
     with open(file_path, 'r+') as fstream:
-        movies: List[str] = fstream.readlines()
+        movies: list[str] = fstream.readlines()
         fstream.seek(0)
         for movie in movies:
             if movie.lower() != moviename + '\n':
@@ -273,7 +268,7 @@ def say_hello() -> None:
 def show_menu(filename=None) -> int:
     """Вывод меню приложения."""
     MENU_MSG: str = 'Меню'
-    menu_buttons: List[int] = [0, 1, 2]
+    menu_buttons: list[int] = [0, 1, 2]
 
     clear()
     if filename is not None:
