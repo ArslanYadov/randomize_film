@@ -43,7 +43,7 @@ def confirm_to_delete(filename: str) -> bool:
                 f'\"{filename}\" из списка? [Да/Нет]: '
             )
             if answer.lower() not in SELECT_ACTION:
-                raise Exception
+                raise KeyError
             break
         except KeyError:
             print('[Error] Да - удалить | Нет - вернуться назад.')

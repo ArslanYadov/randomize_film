@@ -170,7 +170,7 @@ def process_movie(filename: str, moviename: str) -> None:
             if is_empty(answer):
                 return
             if answer.lower() not in SELECT_ACTION:
-                raise Exception
+                raise KeyError
             if answer.lower() in CONFIRM:
                 delete_selected_movie(filename, moviename)
                 return
@@ -244,7 +244,7 @@ def show_menu(filename: str = None) -> int:
         try:
             choose_button: int = int(input('Выберите действие: '))
             if choose_button not in menu_buttons:
-                raise Exception
+                raise KeyError
             break
         except ValueError:
             clear()

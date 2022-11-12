@@ -31,7 +31,7 @@ run:
 
 rvenv: ## очистка виртуального окружения
 rvenv:
-	rm -rf $(VENV)
+	deactivate; rm -rf $(VENV)
 
 clean: ## очистка кэша
 clean:
