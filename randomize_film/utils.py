@@ -45,3 +45,14 @@ def separate(symbol: str = '-', value: int = 20) -> None:
 def path_to_file(filename) -> str:
     """Возвращает путь к выбранному файлу."""
     return os.path.join(PATH_TO_FOLDER, filename)
+
+
+def display_title(filename: str, extension: str = None) -> None:
+    """Отобразить название и расширение."""
+    display_filename: str = None
+    if extension is not None:
+        display_filename = f'Файл: {filename}.{extension}'
+    else:
+        display_filename = f'Ваш фильм на сегодня: {filename}'
+    print(display_filename)
+    separate(value=len(display_filename))

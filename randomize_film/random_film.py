@@ -8,7 +8,8 @@ from utils import (
     loading_imitation,
     is_empty,
     separate,
-    path_to_file
+    path_to_file,
+    display_title
 )
 from constants import (
     PATH_TO_FOLDER,
@@ -149,9 +150,7 @@ def random_movie(filename: str) -> None:
             f'{STEP_BACK} для возврата назад: ')
         return
     rand_film: str = random.choice(movies_list)
-    selected_movie: str = 'Ваш фильм на сегодня: ' + rand_film
-    print(selected_movie)
-    separate(value=len(selected_movie))
+    display_title(rand_film)
     process_movie(filename, rand_film)
 
 
@@ -180,7 +179,10 @@ def process_movie(filename: str, moviename: str) -> None:
                 random_movie(filename)
             break
         except KeyError:
+            clear()
+            display_title(moviename)
             print('[Error] Выберите доступные действия из меню')
+            separate(value=len(MENU_MSG))
             print(MENU_MSG)
 
 

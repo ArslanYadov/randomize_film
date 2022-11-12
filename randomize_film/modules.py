@@ -6,15 +6,13 @@ from constants import (
     STEP_BACK,
     PATH_TO_FOLDER
 )
-from utils import separate, clear, is_empty
+from utils import separate, clear, is_empty, display_title
 
 
 def fill_movie_list(path: str, filename: str) -> None:
     """Наполнения списка фильмами."""
-    display_filename: str = 'Файл: ' + filename + '.txt'
     clear()
-    print(display_filename)
-    separate(value=len(display_filename))
+    display_title(filename, 'txt')
     print(f'Введите название фильма. {STEP_BACK}')
     movies_list: list[str] = []
     title: str = ''
@@ -75,9 +73,7 @@ def get_menu(filename: str) -> tuple[list[str], list[int]]:
 
     if filename is not None:
         menu_buttons.extend([3, 4])
-        display_filename: str = 'Файл: ' + filename + '.txt'
-        print(display_filename)
-        separate(value=len(display_filename))
+        display_title(filename, 'txt')
         menu_choices: str = (
             '1. Показать список.\n'
             '2. Добавить фильм в список.\n'
