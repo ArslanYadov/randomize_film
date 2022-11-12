@@ -30,4 +30,4 @@ $ make help
 Арслан Ядов
 
 E-mail:
-[Arslan Yadov](mailto:arslanyadov@yandex.ru?subject=RandFE)
+[Arslan Yadov](mailto:arslanyadov@yandex.ru?subject=RandME)
