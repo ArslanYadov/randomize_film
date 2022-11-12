@@ -1,6 +1,6 @@
 import os
 
-from constant import (
+from constants import (
     SELECT_ACTION,
     CONFIRM,
     STEP_BACK,

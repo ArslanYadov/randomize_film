@@ -10,7 +10,7 @@ from utils import (
     separate,
     path_to_file
 )
-from constant import (
+from constants import (
     PATH_TO_FOLDER,
     SELECT_ACTION,
     CONFIRM,

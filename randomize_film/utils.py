@@ -3,7 +3,7 @@ import time
 
 from typing import Any
 
-from constant import PATH_TO_FOLDER
+from constants import PATH_TO_FOLDER
 
 
 def clear() -> None:
