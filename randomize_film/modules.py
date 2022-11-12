@@ -91,3 +91,14 @@ def get_menu(filename: str) -> tuple[list[str], list[int]]:
         )
         print(menu_choices)
     return menu_choices, menu_buttons
+
+
+def show_all_movies_lists(
+    movies_lists: dict[str, str],
+    sep: str = None
+) -> None:
+    """Показывает все имеющиеся списки."""
+    for id, filename in movies_lists.items():
+        print(f'{id}: {filename}')
+    if sep is not None:
+        separate(value=len(sep))

@@ -22,7 +22,8 @@ from modules import (
     confirm_to_delete,
     fill_movie_list,
     get_all_movie_list,
-    get_menu
+    get_menu,
+    show_all_movies_lists
 )
 
 
@@ -56,9 +57,7 @@ def select_movie_list() -> None:
 
     all_movie_list: dict[str, str] = get_all_movie_list()
     if all_movie_list is not None:
-        for id, filename in all_movie_list.items():
-            print(f'{id}: {filename}')
-        separate(value=len(SELECT_FILE_MSG))
+        show_all_movies_lists(all_movie_list, SELECT_FILE_MSG)
         edit_file: str = input(SELECT_FILE_MSG)
         while True:
             if is_empty(edit_file):
@@ -74,9 +73,7 @@ def select_movie_list() -> None:
                 break
             else:
                 clear()
-                for id, filename in all_movie_list.items():
-                    print(f'{id}: {filename}')
-                separate(value=len(SELECT_FILE_MSG))
+                show_all_movies_lists(all_movie_list, SELECT_FILE_MSG)
                 print(FILE_NOT_EXIST)
                 edit_file = input(SELECT_FILE_MSG)
 
