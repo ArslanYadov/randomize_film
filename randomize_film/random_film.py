@@ -8,13 +8,20 @@ from utils import (
     loading_imitation,
     is_empty,
     separate,
-    path_to_file,
-    confirm_to_delete
+    path_to_file
 )
 from constant import (
     PATH_TO_FOLDER,
     SELECT_ACTION,
+    CONFIRM,
+    DECLINE,
     STEP_BACK
+)
+from modules import (
+    confirm_to_delete,
+    fill_movie_list,
+    get_all_movie_list,
+    get_menu
 )
 
 
@@ -23,38 +30,19 @@ def create_movie_list() -> None:
     if not os.path.isdir(PATH_TO_FOLDER):
         os.mkdir(PATH_TO_FOLDER)
 
-    file_name: str = input(f'\nВведите название списка. {STEP_BACK}')
+    input_name_for_file: str = input(f'Введите название списка. {STEP_BACK}')
     while True:
-        if is_empty(file_name):
+        if is_empty(input_name_for_file):
             return
-        filename: str = file_name
-        file_name += '.txt'
-        file_name_show: str = 'Файл: ' + file_name
-        file_name = path_to_file(file_name)
-        if not os.path.exists(file_name):
-            clear()
-            print(file_name_show)
-            separate(value=len(file_name_show))
-            print(f'Введите название фильма. {STEP_BACK}')
-            movie_list: list[str] = []
-            title: str = ''
-            i: int = 1
-            while True:
-                title = input(f'#{i}: ')
-                if is_empty(title):
-                    break
-                movie_list.append(title)
-                i += 1
-            if not is_empty(movie_list):
-                with open(file_name, 'w') as fout:
-                    for movie in movie_list:
-                        fout.write(movie + '\n')
-                    fout.truncate()
-                clear()
-                input(f'Список \"{filename}\" создан.\n{STEP_BACK}')
+        file_path: str = path_to_file(input_name_for_file)
+        if not os.path.exists(file_path):
+            fill_movie_list(file_path, input_name_for_file)
             return
-        print('Файл с таким именем уже существует! Попробуйте снова.')
-        file_name = input('Введите другое название файла: ')
+        clear()
+        print('[Error] Файл с таким именем уже существует! Попробуйте снова.')
+        input_name_for_file = input(
+            f'Введите другое название файла. {STEP_BACK}'
+        )
 
 
 def select_movie_list() -> None:
@@ -75,12 +63,10 @@ def select_movie_list() -> None:
             if is_empty(edit_file):
                 return
             if edit_file in all_movie_list.values():
-                edit_file += '.txt'
-                read_add_file(edit_file, show_menu(edit_file))
+                process_file(edit_file, show_menu(edit_file))
                 break
             elif edit_file in all_movie_list:
-                all_movie_list[edit_file] += '.txt'
-                read_add_file(
+                process_file(
                     all_movie_list[edit_file],
                     show_menu(all_movie_list[edit_file])
                 )
@@ -94,38 +80,23 @@ def select_movie_list() -> None:
                 edit_file = input(SELECT_FILE_MSG)
 
 
-def read_add_file(filename: str, choice_number: int) -> None:
+def process_file(filename: str, choice_number: int) -> None:
     """
     Показать список.
     Добавить в список.
     Выбрать случайный фильм из списка.
+    Удалить список.
     """
     if choice_number not in [1, 2, 3, 4]:
         return
-    menu: dict = {
+    menu_buttons: dict = {
         1: read_file,
         2: add_file,
         3: random_movie,
         4: delete_list
     }
-    menu[choice_number](filename)
-    read_add_file(filename, show_menu(filename))
-
-
-def get_all_movie_list() -> list[str]:
-    """Получить все имеющиеся списки."""
-    all_movie_list: dict[str, str] = {}
-    if os.path.isdir(PATH_TO_FOLDER):
-        for _, _, files in os.walk(PATH_TO_FOLDER):
-            all_movie_list = {
-                str(id): file[:-4] for (id, file) in enumerate(files, start=1)
-            }
-    if not is_empty(all_movie_list):
-        return all_movie_list
-    print('У вас нет ни одного списка с фильмами.')
-    separate(value=len(STEP_BACK))
-    input(STEP_BACK)
-    return None
+    menu_buttons[choice_number](filename)
+    process_file(filename, show_menu(filename))
 
 
 def read_file(filename: str) -> None:
@@ -148,19 +119,19 @@ def add_file(filename: str) -> None:
         f'{STEP_BACK}'
     )
 
-    new_movie_list: list[str] = []
+    movies_list: list[str] = []
     movie: str = input(INPUT_MSG)
     while True:
         if is_empty(movie):
             break
-        new_movie_list.append(movie)
+        movies_list.append(movie)
         clear()
-        print(*new_movie_list, sep='\n')
+        print(*movies_list, sep='\n')
         separate(value=len(INPUT_MSG))
         movie: str = input(INPUT_MSG)
-    if not is_empty(new_movie_list):
+    if not is_empty(movies_list):
         with open(path_to_file(filename), 'a') as fstream:
-            for movie in new_movie_list:
+            for movie in movies_list:
                 fstream.write(movie + '\n')
             fstream.truncate()
     return
@@ -170,14 +141,14 @@ def random_movie(filename: str) -> None:
     """Выбрать рандомный фильм из списка."""
     file_path = path_to_file(filename)
     with open(file_path, 'r') as fin:
-        movie_list_for_random: list[str] = [movie.rstrip() for movie in fin]
-    if is_empty(movie_list_for_random):
+        movies_list: list[str] = [movie.rstrip() for movie in fin]
+    if is_empty(movies_list):
         input(
             'Нельзя выбрать фильм из пустого списка. '
             'Наполните его фильмами.\n'
             f'{STEP_BACK} для возврата назад: ')
         return
-    rand_film: str = random.choice(movie_list_for_random)
+    rand_film: str = random.choice(movies_list)
     selected_movie: str = 'Ваш фильм на сегодня: ' + rand_film
     print(selected_movie)
     separate(value=len(selected_movie))
@@ -200,15 +171,15 @@ def process_movie(filename: str, moviename: str) -> None:
                 return
             if answer.lower() not in SELECT_ACTION:
                 raise Exception
-            if answer.lower() in ['yes', 'y', 'да', 'д']:
+            if answer.lower() in CONFIRM:
                 delete_selected_movie(filename, moviename)
                 return
-            if answer.lower() in ['no', 'n', 'нет', 'н']:
+            if answer.lower() in DECLINE:
                 clear()
                 loading_imitation('Попробуем ещё раз', 2, 0.2)
                 random_movie(filename)
             break
-        except Exception:
+        except KeyError:
             print('[Error] Выберите доступные действия из меню')
             print(MENU_MSG)
 
@@ -265,33 +236,10 @@ def say_hello() -> None:
     loading_imitation('Загрузка', 2, 0.3)
 
 
-def show_menu(filename=None) -> int:
+def show_menu(filename: str = None) -> int:
     """Вывод меню приложения."""
-    MENU_MSG: str = 'Меню'
-    menu_buttons: list[int] = [0, 1, 2]
-
     clear()
-    if filename is not None:
-        menu_buttons.extend([3, 4])
-        file_name_msg: str = 'Файл: ' + filename
-        print(file_name_msg)
-        separate(value=len(file_name_msg))
-        menu_choices: str = (
-            '1. Показать список.\n'
-            '2. Добавить фильм в список.\n'
-            '3. Выбрать случайный фильм из списка.\n'
-            '4. Удалить список.\n'
-            '0. Назад.'
-        )
-        print(menu_choices)
-    else:
-        print(f'{MENU_MSG:*^10}')
-        menu_choices: str = (
-            '1. Для создания нового списка.\n'
-            '2. Открыть/редактировать имеющийся список.\n'
-            '0. Выход.'
-        )
-        print(menu_choices)
+    menu_choices, menu_buttons = get_menu(filename)
     while True:
         try:
             choose_button: int = int(input('Выберите действие: '))
@@ -304,7 +252,7 @@ def show_menu(filename=None) -> int:
             print(error)
             separate(value=len(error))
             print(menu_choices)
-        except Exception:
+        except KeyError:
             clear()
             error: str = '[Error] Выберите доступные действия из меню'
             print(error)
@@ -318,7 +266,7 @@ def menu() -> None:
     """Меню приложения."""
     while True:
         choice_number: int = show_menu()
-        menu_list = {
+        menu_list: dict[int, ] = {
             0: exit,
             1: create_movie_list,
             2: select_movie_list,
@@ -330,6 +278,7 @@ def main() -> None:
     """Основная логика программы."""
     say_hello()
     menu()
+
 
 if __name__ == '__main__':
     main()

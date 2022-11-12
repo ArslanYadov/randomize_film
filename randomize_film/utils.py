@@ -3,7 +3,7 @@ import time
 
 from typing import Any
 
-from constant import PATH_TO_FOLDER, SELECT_ACTION
+from constant import PATH_TO_FOLDER
 
 
 def clear() -> None:
@@ -45,20 +45,3 @@ def separate(symbol: str = '-', value: int = 20) -> None:
 def path_to_file(filename) -> str:
     """Возвращает путь к выбранному файлу."""
     return os.path.join(PATH_TO_FOLDER, filename)
-
-
-def confirm_to_delete(filename: str) -> bool:
-    """Подтверждение на удаление."""
-    while True:
-        try:
-            answer: str = input(
-                f'Вы уверены, что хотите удалить \"{filename}\" из списка? [Да/Нет]: '
-            )
-            if answer.lower() not in SELECT_ACTION:
-                raise Exception
-            break
-        except Exception:
-            print('[Error] Да - удалить | Нет - вернуться назад.')
-    if answer.lower() not in ['yes', 'y', 'да', 'д']:
-        return False
-    return True
