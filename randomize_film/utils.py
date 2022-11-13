@@ -1,5 +1,6 @@
 import os
 import time
+import colorama
 
 from typing import Any
 
@@ -56,3 +57,11 @@ def display_title(filename: str, extension: str = None) -> None:
         display_filename = f'Ваш фильм на сегодня: {filename}'
     print(display_filename)
     separate(value=len(display_filename))
+
+def progress_bar(progress, total, color=colorama.Fore.RED):
+    """Имитация загрузки."""
+    bar = '=' * int(progress)
+    print(color + f'\r{bar}', end='\r')
+    if progress == total:
+        print(colorama.Fore.GREEN + f'\r{bar}', end='\r')
+        

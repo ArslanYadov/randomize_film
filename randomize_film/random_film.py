@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import random
+import colorama
 
 from utils import (
     clear,
@@ -9,7 +10,8 @@ from utils import (
     is_empty,
     separate,
     path_to_file,
-    display_title
+    display_title,
+    progress_bar
 )
 from constants import (
     PATH_TO_FOLDER,
@@ -228,11 +230,16 @@ def say_hello() -> None:
         'по выбору случайного фильма!'
     )
 
+    length_string: int = len(HELLO_MSG)
     print(HELLO_MSG)
-    separate('=', len(HELLO_MSG))
-    time.sleep(2)
-    clear()
-    loading_imitation('Загрузка', 2, 0.3)
+    for i in range(length_string):
+        if i < length_string / 2:
+            progress_bar(i + 1, length_string)
+        else:
+            progress_bar(i + 1, length_string, colorama.Fore.YELLOW)
+        time.sleep(.05)
+    time.sleep(.5)
+    print(colorama.Fore.RESET)
 
 
 def show_menu(filename: str = None) -> int:
