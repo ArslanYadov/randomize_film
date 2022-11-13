@@ -21,15 +21,13 @@ def loading_imitation(
     seconds: float = 0
 ) -> None:
     """Имитация загрузки."""
+    amount_of_dots: int = 3
     for _ in range(cycle):
-        print(message + '.')
-        time.sleep(seconds)
-        clear()
-        print(message + '..')
-        time.sleep(seconds)
-        clear()
-        print(message + '...')
-        time.sleep(seconds)
+        print(message, end='\r')
+        dot: str = '.'
+        for i in range(amount_of_dots):
+            print(f'\r{message}{dot * (i + 1)}', end='\r')
+            time.sleep(seconds)
         clear()
 
 
@@ -58,10 +56,10 @@ def display_title(filename: str, extension: str = None) -> None:
     print(display_filename)
     separate(value=len(display_filename))
 
-def progress_bar(progress, total, color=colorama.Fore.RED):
-    """Имитация загрузки."""
-    bar = '=' * int(progress)
+
+def progress_bar(progress: int, total: int, color=colorama.Fore.RED) -> None:
+    """Прогресс бар."""
+    bar: str = '=' * int(progress)
     print(color + f'\r{bar}', end='\r')
     if progress == total:
         print(colorama.Fore.GREEN + f'\r{bar}', end='\r')
-        

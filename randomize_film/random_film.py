@@ -218,7 +218,7 @@ def exit() -> None:
     print('Спасибо за использование программы.')
     time.sleep(1)
     clear()
-    loading_imitation('Программа завершается', 2, 0.7)
+    loading_imitation('Программа завершается', 2, 0.4)
     sys.exit()
 
 
